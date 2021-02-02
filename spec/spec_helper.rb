@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../lib/command'
+Dir["#{File.dirname(__FILE__)}/../lib/*.rb"].each { |f| require_relative f }
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
