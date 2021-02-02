@@ -9,13 +9,7 @@ class Command
   class InvalidCommandError < ArgumentError; end
 
   def initialize(cmd)
-    @action, @options = parse(cmd)
-  end
-
-  def parse(cmd)
-    raise InvalidCommandError unless cmd.start_with?('/version-update')
-
-    cmd.split(' ')
+    @action, @options = cmd.split
   end
 
   def call
@@ -23,7 +17,7 @@ class Command
     when '/version-update'
       Action.new.update_version(options)
     else
-      raise InvalidCommandError
+      raise InvalidCommandError, 'Command is not valid'
     end
   end
 end
