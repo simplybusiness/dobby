@@ -16,9 +16,7 @@ class Action
     @repo = payload['repository']['full_name']
   end
 
-  def update_version(label)
-    # get_version(ref: '')
-  end
+  def update_version(label); end
 
   def fetch_version(ref:)
     content = client.contents(repo, path: version_file_path, query: { ref: ref })['content']
@@ -26,6 +24,8 @@ class Action
     version = content.match(GEMSPEC_VERSION) || content.match(SEMVER_VERSION)
     format_version(version)
   end
+
+  private
 
   def format_version(version)
     Gem::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/\'|\"/, ''))
