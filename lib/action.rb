@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'octokit'
 
 # Run action based on the command
@@ -28,6 +29,6 @@ class Action
   private
 
   def format_version(version)
-    Gem::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/\'|\"/, ''))
+    Gem::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, ''))
   end
 end

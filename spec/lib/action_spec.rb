@@ -2,7 +2,7 @@
 
 require 'ostruct'
 require_relative '../spec_helper'
-
+# rubocop:disable Metrics/BlockLength
 describe Action do
   let(:client) { instance_double(Octokit::Client) }
 
@@ -45,3 +45,4 @@ describe Action do
       .and_return(content)
   end
 end
+# rubocop:enable Metrics/BlockLength
