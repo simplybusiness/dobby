@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'octokit'
+require 'json'
 
 # configuration for octokit
 class Config
