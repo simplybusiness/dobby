@@ -34,8 +34,9 @@ describe Action do
     expect do
       action.update_version('invalid_semver')
     end.to raise_error(
-             ArgumentError,
-             'invalid_semver is not valid semver. Please provide one of minor, major, patch level')
+      ArgumentError,
+      'invalid_semver is not valid semver. Please provide one of minor, major, patch level'
+    )
   end
 
   private
