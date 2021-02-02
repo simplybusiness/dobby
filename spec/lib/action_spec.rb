@@ -30,13 +30,6 @@ describe Action do
     expect(action.fetch_version(ref: 'master')).to eq(version)
   end
 
-  it 'increment the minor version' do
-    mock_version_response('1.0.0', 'master')
-    res = action.update_version('minor'))
-    updated_version = Gem::Version.new('1.1.0')
-    expect(res.version).to eq(updated_version)
-  end
-
   private
 
   def mock_version_response(version, branch)
