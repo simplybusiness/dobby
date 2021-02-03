@@ -23,42 +23,46 @@ describe Action do
 
   let(:action) { Action.new(config) }
 
-  it 'add a comment for invalid semver' do
-    expect(action).to receive(:add_comment_for_invalid_semver)
-    action.bump_version('invalid_semver')
+  describe '#bump_version' do
+    it 'add a comment for invalid semver' do
+      expect(action).to receive(:add_comment_for_invalid_semver)
+      action.bump_version('invalid_semver')
+    end
+
+    it 'updates the version file with new version' do
+      mock_version_response('1.0.0', 'master')
+      updated_content = version_file_content('1.1.0')
+      expect(config.client).to receive(:update_contents).with(
+        repo: 'simplybusiness/test',
+        message: 'bump minor version',
+        content: updated_content,
+        branch: 'my_branch'
+      )
+      action.bump_version('minor')
+    end
   end
 
-  it 'bumps the major version in version file' do
-    content = version_file_content('1.0.0')
-    expected_content = version_file_content('2.0.0')
-    updated_content = action.updated_version_file(content, 'major')
-    expect(updated_content).to eq(expected_content)
-  end
+  describe '#updated_version_file' do
+    it 'bumps the major version' do
+      content = version_file_content('1.0.0')
+      expected_content = version_file_content('2.0.0')
+      updated_content = action.updated_version_file(content, 'major')
+      expect(updated_content).to eq(expected_content)
+    end
 
-  it 'bumps the minor version in version file' do
-    content = version_file_content('1.0.0')
-    expected_content = version_file_content('1.1.0')
-    updated_content = action.updated_version_file(content, 'minor')
-    expect(updated_content).to eq(expected_content)
-  end
+    it 'bumps the minor version' do
+      content = version_file_content('1.0.0')
+      expected_content = version_file_content('1.1.0')
+      updated_content = action.updated_version_file(content, 'minor')
+      expect(updated_content).to eq(expected_content)
+    end
 
-  it 'bumps the patch version in version file' do
-    content = version_file_content('1.0.0')
-    expected_content = version_file_content('1.0.1')
-    updated_content = action.updated_version_file(content, 'patch')
-    expect(updated_content).to eq(expected_content)
-  end
-
-  it 'updates the version file with new version' do
-    mock_version_response('1.0.0', 'master')
-    updated_content = version_file_content('1.1.0')
-    expect(config.client).to receive(:update_contents).with(
-      repo: 'simplybusiness/test',
-      message: 'bump minor version',
-      content: updated_content,
-      branch: 'my_branch'
-    )
-    action.bump_version('minor')
+    it 'bumps the patch version' do
+      content = version_file_content('1.0.0')
+      expected_content = version_file_content('1.0.1')
+      updated_content = action.updated_version_file(content, 'patch')
+      expect(updated_content).to eq(expected_content)
+    end
   end
 
   private
@@ -76,10 +80,10 @@ describe Action do
 
   def version_file_content(version)
     %(
-        module TestRepo
-          VERSION='#{version}'
-        end
-      )
+      module TestRepo
+        VERSION='#{version}'
+      end
+     )
   end
 end
 # rubocop:enable Metrics/BlockLength

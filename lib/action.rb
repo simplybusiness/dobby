@@ -20,12 +20,10 @@ class Action
   def bump_version(level)
     if VALID_SEMVER_LEVELS.include?(level)
       content = fetch_content(ref: base_branch, path: version_file_path)
-      client.update_contents(
-        repo: repo,
-        message: "bump #{level} version",
-        content: updated_version_file(content, level),
-        branch: head_branch
-      )
+      client.update_contents(repo: repo,
+                             message: "bump #{level} version",
+                             content: updated_version_file(content, level),
+                             branch: head_branch)
     else
       add_comment_for_invalid_semver
     end
