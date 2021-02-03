@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'octokit'
+gem 'semantic'
 
 group :development, :test do
   gem 'pry'

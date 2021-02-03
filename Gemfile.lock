@@ -73,6 +73,7 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
+    semantic (1.6.1)
     simplycop (1.4.0)
       rubocop (~> 1.6.1)
       rubocop-rails (~> 2.9.0)
@@ -89,6 +90,7 @@ DEPENDENCIES
   octokit
   pry
   rspec
+  semantic
   simplycop
 
 BUNDLED WITH
