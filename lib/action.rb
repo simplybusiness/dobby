@@ -19,12 +19,12 @@ class Action
   end
 
   def update_version(level)
-    content = fetch_content(ref: 'master')
     if VALID_SEMVER_LEVELS.include?(level)
+      content = fetch_content(ref: 'master')
       client.update_contents(
         repo: repo,
         message: "bump #{level} version",
-        content: bump_version_file(content, level),
+        content: updated_version_file(content, level),
         branch: 'asdasd'
       )
     else
@@ -37,9 +37,9 @@ class Action
     Base64.decode64(content)
   end
 
-  def bump_version_file(content, level)
+  def updated_version_file(content, level)
     version = fetch_version(content)
-    updated_version = Semantic::Version.new(version).increment!(level.to_sym)
+    updated_version = version.increment!(level.to_sym)
     content.gsub(SEMVER_VERSION, "'#{updated_version}'")
   end
 
@@ -47,7 +47,7 @@ class Action
 
   def fetch_version(content)
     version = content.match(GEMSPEC_VERSION) || content.match(SEMVER_VERSION)
-    version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, '')
+    Semantic::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, ''))
   end
 
   def add_comment_for_invalid_semver; end
