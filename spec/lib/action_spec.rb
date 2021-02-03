@@ -30,15 +30,6 @@ describe Action do
     expect(action.fetch_version(ref: 'master')).to eq(version)
   end
 
-  it 'raises an exception for invalid server levels' do
-    expect do
-      action.update_version('invalid_semver')
-    end.to raise_error(
-      ArgumentError,
-      'invalid_semver is not valid semver. Please provide one of minor, major, patch level'
-    )
-  end
-
   private
 
   def mock_version_response(version, branch)

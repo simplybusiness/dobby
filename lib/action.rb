@@ -6,7 +6,6 @@ require 'octokit'
 class Action
   attr_reader :client, :payload, :version_file_path, :repo
 
-  SEMVER_LEVELS = %w[minor major patch].freeze
   SEMVER_VERSION =
     /["'](0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']/.freeze # rubocop:disable Layout/LineLength
   GEMSPEC_VERSION = Regexp.new(/\.version\s*=\s*/.to_s + SEMVER_VERSION.to_s).freeze
@@ -18,10 +17,7 @@ class Action
     @repo = payload['repository']['full_name']
   end
 
-  def update_version(level)
-    msg = "#{level} is not valid semver. Please provide one of #{SEMVER_LEVELS.join(', ')} level"
-    raise ArgumentError, msg unless SEMVER_LEVELS.include?(level)
-  end
+  def update_version(label); end
 
   def fetch_version(ref:)
     content = client.contents(repo, path: version_file_path, query: { ref: ref })['content']
