@@ -51,7 +51,7 @@ class Action
 
   def assign_payload_attributes!(payload)
     @repo = payload['repository']['full_name']
-    pull_req = client.pull_request(payload['issue']['number'])
+    pull_req = client.pull_request(@repo, payload['issue']['number'])
     @head_branch = pull_req['head']['branch']
     @base_branch = pull_req['base']['branch']
   end
