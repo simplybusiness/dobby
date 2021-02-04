@@ -56,7 +56,7 @@ class Action
     @repo = payload['repository']['full_name']
     pull_req = client.pull_request(@repo, payload['issue']['number'])
     @head_branch = pull_req['head']['ref']
-    @head_sha = pull_req['head']['sha']
+    @base_sha = pull_req['base']['sha']
     @base_branch = pull_req['base']['ref']
   end
 end
