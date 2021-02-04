@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'action'
+require 'config'
 
 # Parse the command and call the action accordingly.
 class Command
@@ -15,7 +16,8 @@ class Command
   def call
     case action
     when '/version-update'
-      Action.new.update_version(options)
+      config = Config.new
+      Action.new(config).update_version(options)
     else
       raise InvalidCommandError, 'Command is not valid'
     end
