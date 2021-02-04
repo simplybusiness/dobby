@@ -21,7 +21,7 @@ describe Command do
       allow(Config).to receive(:new).and_return(double)
       allow(Action).to receive(:new).and_return(action)
 
-      expect(action).to receive(:update_version).with('minor')
+      expect(action).to receive(:bump_version).with('minor')
       Command.new('/version-update minor').call
     end
   end
