@@ -17,7 +17,7 @@ class Command
     case action
     when '/version-update'
       config = Config.new
-      Action.new(config).update_version(options)
+      Action.new(config).bump_version(options)
     else
       raise InvalidCommandError, 'Command is not valid'
     end
