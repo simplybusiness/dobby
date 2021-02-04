@@ -7,7 +7,7 @@ def run
   config = Config.new
   case config.event_name
   when 'issue_comment'
-    puts "Pull request commented. #{config.payload}"
+    puts "Pull request commented."
     Command.new(config).call
   else
     puts "Event #{config.event_name} is triggered. No action called."
