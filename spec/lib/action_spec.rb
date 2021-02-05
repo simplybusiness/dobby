@@ -53,7 +53,7 @@ describe Action do
         path: 'lib/version.rb',
         query: { ref: 'master' }
       )
-      content = action.fetch_content(ref: 'master', path: 'lib/version.rb')
+      content = action.fetch_content_and_blob_sha(ref: 'master', path: 'lib/version.rb')
       expect(content).to eq(version_file_content('1.0.0'))
     end
   end
