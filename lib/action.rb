@@ -20,14 +20,16 @@ class Action
   end
 
   def bump_version(level)
-    add_comment_for_invalid_semver unless VALID_SEMVER_LEVELS.include?(level)
-    content, blob_sha = fetch_content_and_blob_sha(ref: head_branch, path: version_file_path)
-    client.update_contents(repo,
-                           version_file_path,
-                           "bump #{level} version",
-                           blob_sha,
-                           updated_version_file(content, level),
-                           branch: head_branch)
+    if VALID_SEMVER_LEVELS.include?(level)
+      content, blob_sha = fetch_content_and_blob_sha(ref: head_branch, path: version_file_path)
+      client.update_contents(repo, version_file_path,
+                             "bump #{level} version",
+                             blob_sha,
+                             updated_version_file(content, level),
+                             branch: head_branch)
+    else
+      add_comment_for_invalid_semver
+    end
   end
 
   def fetch_content_and_blob_sha(ref:, path:)
