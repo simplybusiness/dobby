@@ -1,4 +1,4 @@
-FROM ruby:3.0.0-slim
+FROM ruby:3.0.0-alpine
 
 LABEL maintainer="simplybusiness <opensourcetech@simplybusiness.co.uk>"
 
