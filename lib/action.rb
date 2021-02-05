@@ -4,7 +4,7 @@ require 'octokit'
 require 'semantic'
 # Run action based on the command
 class Action
-  attr_reader :client, :version_file_path, :repo, :head_branch, :base_branch
+  attr_reader :client, :version_file_path, :repo, :head_branch, :base_branch, :head_sha
 
   SEMVER_VERSION =
     /["'](0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']/.freeze # rubocop:disable Layout/LineLength
@@ -14,24 +14,27 @@ class Action
   def initialize(config)
     @client = config.client
     @version_file_path = config.version_file_path
-    assign_payload_attributes!(config.payload)
+    @repo = config.payload['repository']['full_name']
+
+    assign_pr_attributes!(config.payload['issue']['number'])
   end
 
   def bump_version(level)
     if VALID_SEMVER_LEVELS.include?(level)
-      content = fetch_content(ref: base_branch, path: version_file_path)
-      client.update_contents(repo: repo,
-                             message: "bump #{level} version",
-                             content: updated_version_file(content, level),
+      content, blob_sha = fetch_content_and_blob_sha(ref: head_branch, path: version_file_path)
+      client.update_contents(repo, version_file_path,
+                             "bump #{level} version",
+                             blob_sha,
+                             updated_version_file(content, level),
                              branch: head_branch)
     else
       add_comment_for_invalid_semver
     end
   end
 
-  def fetch_content(ref:, path:)
-    content = client.contents(repo, path: path, query: { ref: ref })['content']
-    Base64.decode64(content)
+  def fetch_content_and_blob_sha(ref:, path:)
+    content = client.contents(repo, path: path, query: { ref: ref })
+    [Base64.decode64(content['content']), content['sha']]
   end
 
   def updated_version_file(content, level)
@@ -49,10 +52,9 @@ class Action
 
   def add_comment_for_invalid_semver; end
 
-  def assign_payload_attributes!(payload)
-    @repo = payload['repository']['full_name']
-    pull_req = payload['pull_request']
-    @head_branch = pull_req['head']['branch']
-    @base_branch = pull_req['base']['branch']
+  def assign_pr_attributes!(pr_number)
+    pull_req = client.pull_request(repo, pr_number)
+    @head_branch = pull_req['head']['ref']
+    @base_branch = pull_req['base']['ref']
   end
 end

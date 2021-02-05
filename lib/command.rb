@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-require 'action'
-require 'config'
+require_relative 'action'
 
 # Parse the command and call the action accordingly.
 class Command
-  attr_reader :action, :options
+  attr_reader :config, :action, :options
 
-  class InvalidCommandError < ArgumentError; end
-
-  def initialize(cmd)
+  def initialize(config)
+    @config = config
+    cmd = config.payload['comment']['body']
     @action, @options = cmd.split
   end
 
   def call
+    return unless action.start_with?('/')
+
     case action
     when '/version-update'
-      config = Config.new
       Action.new(config).bump_version(options)
     else
-      raise InvalidCommandError, 'Command is not valid'
+      puts 'Command is not valid'
     end
   end
 end

@@ -1,28 +1,41 @@
 # frozen_string_literal: true
 
 require_relative '../spec_helper'
-
+# rubocop:disable Metrics/BlockLength
 describe Command do
-  context 'version-update command' do
-    it 'raises exception for invalid command' do
-      expect do
-        Command.new('something else').call
-      end.to raise_exception Command::InvalidCommandError
+  let(:config) do
+    OpenStruct.new(
+      payload: {
+        'comment' => {
+          'body' => body
+        }
+      }
+    )
+  end
+
+  describe 'version-update' do
+    context 'for valid command' do
+      let(:body) { '/version-update minor' }
+      it 'bumps the version' do
+        action = double
+        allow(Action).to receive(:new).and_return(action)
+
+        expect(action).to receive(:bump_version).with('minor')
+        Command.new(config).call
+      end
     end
 
-    it 'raises exception for command not allowed' do
-      expect do
-        Command.new('/somecommand option').call
-      end.to raise_exception Command::InvalidCommandError
-    end
+    context 'for invalid command' do
+      let(:body) { '/some_invalid_command option' }
 
-    it 'calls the update action' do
-      action = double
-      allow(Config).to receive(:new).and_return(double)
-      allow(Action).to receive(:new).and_return(action)
+      it 'dont call the bump version' do
+        action = double
+        allow(Action).to receive(:new).and_return(action)
 
-      expect(action).to receive(:bump_version).with('minor')
-      Command.new('/version-update minor').call
+        expect(action).to_not receive(:bump_version).with('minor')
+        Command.new(config).call
+      end
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

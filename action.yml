@@ -1,0 +1,11 @@
+name: 'Simply Bot'
+author: 'opensourcetech@simplybusiness.co.uk'
+description:
+  Perform operation based on the comment on pull request.
+  Bumps the version in a gem.
+branding:
+  icon: code
+  color: red
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
