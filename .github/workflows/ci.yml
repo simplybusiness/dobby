@@ -34,7 +34,7 @@ jobs:
         run: bundle exec rspec
       - name: upload test coverage to CodeClimate
         env:
-         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
        run: ./cc-test-reporter after-build
       - name: Rubocop
         run: bundle exec rubocop
