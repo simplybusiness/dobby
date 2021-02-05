@@ -14,21 +14,20 @@ class Action
   def initialize(config)
     @client = config.client
     @version_file_path = config.version_file_path
-    assign_payload_attributes!(config.payload)
+    @repo = config.payload['repository']['full_name']
+
+    assign_pr_attributes!(config.payload['issue']['number'])
   end
 
   def bump_version(level)
-    if VALID_SEMVER_LEVELS.include?(level)
-      content, blob_sha = fetch_content_and_blob_sha(ref: base_branch, path: version_file_path)
-      client.update_contents(repo,
-                             version_file_path,
-                             "bump #{level} version",
-                             blob_sha,
-                             updated_version_file(content, level),
-                             branch: head_branch)
-    else
-      add_comment_for_invalid_semver
-    end
+    add_comment_for_invalid_semver unless VALID_SEMVER_LEVELS.include?(level)
+    content, blob_sha = fetch_content_and_blob_sha(ref: head_branch, path: version_file_path)
+    client.update_contents(repo,
+                           version_file_path,
+                           "bump #{level} version",
+                           blob_sha,
+                           updated_version_file(content, level),
+                           branch: head_branch)
   end
 
   def fetch_content_and_blob_sha(ref:, path:)
@@ -51,11 +50,9 @@ class Action
 
   def add_comment_for_invalid_semver; end
 
-  def assign_payload_attributes!(payload)
-    @repo = payload['repository']['full_name']
-    pull_req = client.pull_request(@repo, payload['issue']['number'])
+  def assign_pr_attributes!(pr_number)
+    pull_req = client.pull_request(repo, pr_number)
     @head_branch = pull_req['head']['ref']
-    @base_sha = pull_req['base']['sha']
     @base_branch = pull_req['base']['ref']
   end
 end
