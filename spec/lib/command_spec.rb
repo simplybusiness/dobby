@@ -28,10 +28,11 @@ describe Command do
     context 'for invalid command' do
       let(:body) { '/some_invalid_command option' }
 
-      it 'dont call the bump version' do
+      it 'does not bump the version but reacts with confused emoji' do
         action = double
         allow(Action).to receive(:new).and_return(action)
 
+        expect(action).to receive(:add_reaction).with('confused')
         expect(action).to_not receive(:bump_version).with('minor')
         Command.new(config).call
       end

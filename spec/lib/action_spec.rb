@@ -11,9 +11,12 @@ describe Action do
       client: client,
       version_file_path: 'lib/version.rb',
       payload: {
-        'repository' => { 'full_name' => 'simplybusiness/test' },
+        'repository' => { 'full_name' => repo_full_name },
         'issue' => {
           'number' => 1
+        },
+        'comment' => {
+          'id' => 123
         }
       }
     )
@@ -53,9 +56,9 @@ describe Action do
 
   describe '#fetch_content' do
     it 'fetch the content for a given file on a branch' do
-      mock_version_response('1.0.0', 'master')
+      mock_version_response(client, '1.0.0', 'master')
       expect(client).to receive(:contents).with(
-        'simplybusiness/test',
+        repo_full_name,
         path: 'lib/version.rb',
         query: { ref: 'master' }
       )
@@ -65,46 +68,40 @@ describe Action do
   end
 
   describe '#bump_version' do
-    it 'add a comment for invalid semver' do
-      expect(action).to receive(:add_comment_for_invalid_semver)
+    it 'reacts with confused emoji for invalid semver' do
+      expect(action).to receive(:add_reaction).with('confused')
       action.bump_version('invalid_semver')
     end
 
-    it 'updates the version file with new version' do
-      mock_version_response('1.0.0', 'my_branch')
+    it 'updates the version file with new version and react with thumbs up' do
+      mock_version_response(client, '1.0.0', 'my_branch')
       updated_content = version_file_content('1.1.0')
       expect(client).to receive(:update_contents).with(
-        'simplybusiness/test',
+        repo_full_name,
         'lib/version.rb',
         'bump minor version',
         'abc1234',
         updated_content,
         branch: 'my_branch'
       )
+      expect(action).to receive(:add_reaction).with('+1')
       action.bump_version('minor')
     end
   end
 
-  private
+  describe '#add_reaction' do
+    it 'add reaction to the comment' do
+      mock_reaction_response(client, 123, '+1')
+      response = action.add_reaction('+1')
+      expect(response).to eq({ id: 1, content: '+1' })
+    end
 
-  def mock_version_response(version, branch)
-    content = {
-      'content' => Base64.encode64(
-        version_file_content(version)
-      ),
-      'sha' => 'abc1234'
-    }
-    allow(client).to receive(:contents)
-      .with('simplybusiness/test', path: 'lib/version.rb', query: { ref: branch })
-      .and_return(content)
-  end
-
-  def version_file_content(version)
-    %(
-      module TestRepo
-        VERSION='#{version}'
-      end
-     )
+    it 'raise exception for invalid reaction' do
+      mock_invalid_reaction_response(client, 123, 'barney_cry')
+      expect do
+        action.add_reaction('barney_cry')
+      end.to raise_error(Octokit::UnprocessableEntity)
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength

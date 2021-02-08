@@ -4,22 +4,24 @@ require_relative 'action'
 
 # Parse the command and call the action accordingly.
 class Command
-  attr_reader :config, :action, :options
+  attr_reader :config, :command, :options
 
   def initialize(config)
     @config = config
     cmd = config.payload['comment']['body']
-    @action, @options = cmd.split
+    @command, @options = cmd.split
   end
 
   def call
-    return unless action.start_with?('/')
+    return unless command.start_with?('/')
 
-    case action
+    action = Action.new(config)
+    case command
     when '/version-update'
-      Action.new(config).bump_version(options)
+      action.bump_version(options)
     else
-      puts 'Command is not valid'
+      puts 'Command is invalid'
+      action.add_reaction('confused')
     end
   end
 end
