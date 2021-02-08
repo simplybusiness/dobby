@@ -14,6 +14,9 @@ describe Action do
         'repository' => { 'full_name' => 'simplybusiness/test' },
         'issue' => {
           'number' => 1
+        },
+        'comment' => {
+          'id' => '123'
         }
       }
     )
@@ -53,7 +56,7 @@ describe Action do
 
   describe '#fetch_content' do
     it 'fetch the content for a given file on a branch' do
-      mock_version_response('1.0.0', 'master')
+      mock_version_response(client, '1.0.0', 'master')
       expect(client).to receive(:contents).with(
         'simplybusiness/test',
         path: 'lib/version.rb',
@@ -71,7 +74,7 @@ describe Action do
     end
 
     it 'updates the version file with new version and react with thumbs up' do
-      mock_version_response('1.0.0', 'my_branch')
+      mock_version_response(client, '1.0.0', 'my_branch')
       updated_content = version_file_content('1.1.0')
       expect(client).to receive(:update_contents).with(
         'simplybusiness/test',
@@ -86,26 +89,10 @@ describe Action do
     end
   end
 
-  private
-
-  def mock_version_response(version, branch)
-    content = {
-      'content' => Base64.encode64(
-        version_file_content(version)
-      ),
-      'sha' => 'abc1234'
-    }
-    allow(client).to receive(:contents)
-      .with('simplybusiness/test', path: 'lib/version.rb', query: { ref: branch })
-      .and_return(content)
-  end
-
-  def version_file_content(version)
-    %(
-      module TestRepo
-        VERSION='#{version}'
-      end
-     )
+  describe '#add_reaction' do
+    xit 'throw an error if its not a valid reaction' do
+      expect(action.add_reaction(123, 'somecontent'))
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength

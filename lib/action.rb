@@ -4,7 +4,7 @@ require 'octokit'
 require 'semantic'
 # Run action based on the command
 class Action
-  attr_reader :client, :version_file_path, :repo, :head_branch, :base_branch, :head_sha
+  attr_reader :client, :version_file_path, :repo, :head_branch, :base_branch, :comment_id
 
   SEMVER_VERSION =
     /["'](0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']/.freeze # rubocop:disable Layout/LineLength
@@ -14,9 +14,11 @@ class Action
   def initialize(config)
     @client = config.client
     @version_file_path = config.version_file_path
-    @repo = config.payload['repository']['full_name']
+    payload = config.payload
+    @repo = payload['repository']['full_name']
+    @comment_id = payload['comment']['id']
 
-    assign_pr_attributes!(config.payload['issue']['number'])
+    assign_pr_attributes!(payload['issue']['number'])
   end
 
   def bump_version(level)
@@ -27,9 +29,9 @@ class Action
                              blob_sha,
                              updated_version_file(content, level),
                              branch: head_branch)
-      add_reaction('+1')
+      add_reaction(comment_id, '+1')
     else
-      add_reaction('confused')
+      add_reaction(comment_id, 'confused')
     end
   end
 
@@ -44,15 +46,13 @@ class Action
     content.gsub(SEMVER_VERSION, "'#{updated_version}'")
   end
 
+  def add_reaction(comment_id, reaction); end
+
   private
 
   def fetch_version(content)
     version = content.match(GEMSPEC_VERSION) || content.match(SEMVER_VERSION)
     Semantic::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, ''))
-  end
-
-  def add_reaction(content)
-
   end
 
   def assign_pr_attributes!(pr_number)
