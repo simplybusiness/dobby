@@ -23,14 +23,15 @@ class Action
 
   def bump_version(level)
     if VALID_SEMVER_LEVELS.include?(level)
+      add_reaction('+1')
+
       content, blob_sha = fetch_content_and_blob_sha(ref: head_branch, path: version_file_path)
       client.update_contents(repo, version_file_path,
                              "bump #{level} version", blob_sha,
                              updated_version_file(content, level),
                              branch: head_branch)
-      add_reaction(comment_id, '+1')
     else
-      add_reaction(comment_id, 'confused')
+      add_reaction('confused')
     end
   end
 
@@ -45,7 +46,7 @@ class Action
     content.gsub(SEMVER_VERSION, "'#{updated_version}'")
   end
 
-  def add_reaction(comment_id, reaction)
+  def add_reaction(reaction)
     client.create_issue_comment_reaction(repo, comment_id, reaction)
   end
 
