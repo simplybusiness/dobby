@@ -15,13 +15,13 @@ on:
     types: [created]
 jobs:
   pr_commented:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       # TODO: remove this step after the action is public
       - name: action checkout
         uses: actions/checkout@v2
         with:
-          repository: simplybusiness/version-update-action
+          repository: simplybusiness/dobby
           ref: refs/heads/master
           token: ${{ secrets.ACCESS_TOKEN }}
           path: ./
