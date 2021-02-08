@@ -65,12 +65,12 @@ describe Action do
   end
 
   describe '#bump_version' do
-    it 'add a comment for invalid semver' do
-      expect(action).to receive(:add_comment_for_invalid_semver)
+    it 'react with confused emoji for invalid semver' do
+      expect(action).to receive(:add_reaction).with('confused')
       action.bump_version('invalid_semver')
     end
 
-    it 'updates the version file with new version' do
+    it 'updates the version file with new version and react with thumbs up' do
       mock_version_response('1.0.0', 'my_branch')
       updated_content = version_file_content('1.1.0')
       expect(client).to receive(:update_contents).with(
@@ -81,6 +81,7 @@ describe Action do
         updated_content,
         branch: 'my_branch'
       )
+      expect(action).to receive(:add_reaction).with('+1')
       action.bump_version('minor')
     end
   end

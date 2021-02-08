@@ -27,8 +27,9 @@ class Action
                              blob_sha,
                              updated_version_file(content, level),
                              branch: head_branch)
+      add_reaction('+1')
     else
-      add_comment_for_invalid_semver
+      add_reaction('confused')
     end
   end
 
@@ -50,7 +51,9 @@ class Action
     Semantic::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, ''))
   end
 
-  def add_comment_for_invalid_semver; end
+  def add_reaction(content)
+
+  end
 
   def assign_pr_attributes!(pr_number)
     pull_req = client.pull_request(repo, pr_number)
