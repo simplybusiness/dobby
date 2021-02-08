@@ -16,6 +16,8 @@ on:
 jobs:
   pr_commented:
     runs-on: ubuntu-20.04
+    if: startsWith(github.event.comment.body, '/')
+    
     steps:
       # TODO: remove this step after the action is public
       - name: action checkout
