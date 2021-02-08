@@ -68,7 +68,7 @@ describe Action do
   end
 
   describe '#bump_version' do
-    it 'react with confused emoji for invalid semver' do
+    it 'reacts with confused emoji for invalid semver' do
       expect(action).to receive(:add_reaction).with('confused')
       action.bump_version('invalid_semver')
     end
