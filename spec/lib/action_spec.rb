@@ -11,7 +11,7 @@ describe Action do
       client: client,
       version_file_path: 'lib/version.rb',
       payload: {
-        'repository' => { 'full_name' => 'simplybusiness/test' },
+        'repository' => { 'full_name' => repo_full_name },
         'issue' => {
           'number' => 1
         },
@@ -58,7 +58,7 @@ describe Action do
     it 'fetch the content for a given file on a branch' do
       mock_version_response(client, '1.0.0', 'master')
       expect(client).to receive(:contents).with(
-        'simplybusiness/test',
+        repo_full_name,
         path: 'lib/version.rb',
         query: { ref: 'master' }
       )
@@ -77,7 +77,7 @@ describe Action do
       mock_version_response(client, '1.0.0', 'my_branch')
       updated_content = version_file_content('1.1.0')
       expect(client).to receive(:update_contents).with(
-        'simplybusiness/test',
+        repo_full_name,
         'lib/version.rb',
         'bump minor version',
         'abc1234',
@@ -93,7 +93,7 @@ describe Action do
     it 'add reaction to the comment' do
       mock_reaction_response(client, 123, '+1')
       response = action.add_reaction(123, '+1')
-      expect(response).to eq({id: 1, content: '+1'})
+      expect(response).to eq({ id: 1, content: '+1' })
     end
 
     it 'raise exception for invalid reaction' do
