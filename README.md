@@ -1,4 +1,6 @@
-# Gem Version Update
+# Dobby
+
+“Dobby is free.”
 
 A Github action for ruby gems that bumps the gem version in a pull request.
 
@@ -13,7 +15,7 @@ on:
     types: [created]
 jobs:
   pr_commented:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       # TODO: remove this step after the action is public
       - name: action checkout
@@ -39,6 +41,7 @@ jobs:
 ```
 where semver level can be minor/major/patch.
 
-3. Bot will add a commit to update version.
+3. Bot will add a commit to bump gem version.
+   
    ![Version update comment](docs/images/version-update.png)
 
