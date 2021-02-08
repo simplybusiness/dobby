@@ -20,6 +20,12 @@ module Helpers
       ).and_return({ id: 1, content: reaction })
     end
 
+    def mock_invalid_reaction_response(client, comment_id, reaction)
+      allow(client).to receive(:create_issue_comment_reaction).with(
+        'simplybusiness/test', comment_id, reaction
+      ).and_raise(Octokit::UnprocessableEntity)
+    end
+
     def version_file_content(version)
       %(
         module TestRepo

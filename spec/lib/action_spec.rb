@@ -16,7 +16,7 @@ describe Action do
           'number' => 1
         },
         'comment' => {
-          'id' => '123'
+          'id' => 123
         }
       }
     )
@@ -69,7 +69,7 @@ describe Action do
 
   describe '#bump_version' do
     it 'react with confused emoji for invalid semver' do
-      expect(action).to receive(:add_reaction).with('confused')
+      expect(action).to receive(:add_reaction).with(123, 'confused')
       action.bump_version('invalid_semver')
     end
 
@@ -84,14 +84,23 @@ describe Action do
         updated_content,
         branch: 'my_branch'
       )
-      expect(action).to receive(:add_reaction).with('+1')
+      expect(action).to receive(:add_reaction).with(123, '+1')
       action.bump_version('minor')
     end
   end
 
   describe '#add_reaction' do
-    xit 'throw an error if its not a valid reaction' do
-      expect(action.add_reaction(123, 'somecontent'))
+    it 'add reaction to the comment' do
+      mock_reaction_response(client, 123, '+1')
+      response = action.add_reaction(123, '+1')
+      expect(response).to eq({id: 1, content: '+1'})
+    end
+
+    it 'raise exception for invalid reaction' do
+      mock_invalid_reaction_response(client, 123, 'barney_cry')
+      expect do
+        action.add_reaction(123, 'barney_cry')
+      end.to raise_error(Octokit::UnprocessableEntity)
     end
   end
 end

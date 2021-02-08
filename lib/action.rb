@@ -46,7 +46,9 @@ class Action
     content.gsub(SEMVER_VERSION, "'#{updated_version}'")
   end
 
-  def add_reaction(comment_id, reaction); end
+  def add_reaction(comment_id, reaction)
+    client.create_issue_comment_reaction(repo, comment_id, reaction)
+  end
 
   private
 
