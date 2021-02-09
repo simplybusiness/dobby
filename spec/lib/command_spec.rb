@@ -13,9 +13,19 @@ describe Command do
     )
   end
 
-  describe 'version-update' do
+  describe 'initialize' do
+    let(:body) { '/dobby version minor' }
+
+    it 'sets command and option' do
+      cmd = Command.new(config)
+      expect(cmd.command).to eq('version')
+      expect(cmd.options).to eq('minor')
+    end
+  end
+
+  describe 'version' do
     context 'for valid command' do
-      let(:body) { '/version-update minor' }
+      let(:body) { '/dobby version minor' }
       it 'bumps the version' do
         action = double
         allow(Action).to receive(:new).and_return(action)
@@ -26,7 +36,7 @@ describe Command do
     end
 
     context 'for invalid command' do
-      let(:body) { '/some_invalid_command option' }
+      let(:body) { '/dobby barney laugh' }
 
       it 'does not bump the version but reacts with confused emoji' do
         action = double

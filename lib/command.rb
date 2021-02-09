@@ -6,18 +6,22 @@ require_relative 'action'
 class Command
   attr_reader :config, :command, :options
 
+  COMMAND_PREFIX = '/dobby'
+
   def initialize(config)
     @config = config
-    cmd = config.payload['comment']['body']
+    comment = config.payload['comment']['body'].strip
+    error_msg = "Comment must be start with #{COMMAND_PREFIX}"
+    raise ArgumentError, error_msg unless comment.start_with?(COMMAND_PREFIX)
+
+    cmd = comment.delete_prefix(COMMAND_PREFIX)
     @command, @options = cmd.split
   end
 
   def call
-    return unless command.start_with?('/')
-
     action = Action.new(config)
     case command
-    when '/version-update'
+    when 'version'
       action.bump_version(options)
     else
       puts 'Command is invalid'
