@@ -16,7 +16,7 @@ on:
 jobs:
   pr_commented:
     runs-on: ubuntu-20.04
-    if: startsWith(github.event.comment.body, '/')
+    if: startsWith(github.event.comment.body, '/dobby')
     
     steps:
       # TODO: remove this step after the action is public
@@ -39,7 +39,7 @@ jobs:
 2. Add the following comment in the pull request to bump the version.
 
 ```
-/version-update <semver level>
+/dobby version <semver level>
 ```
 where semver level can be minor/major/patch.
 
