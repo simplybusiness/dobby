@@ -2,10 +2,14 @@
 
 “Dobby is free.”
 
-A Github action for ruby gems that bumps the gem version in a pull request.
+A Github action which provides chat-ops functionality. You can comment on Pull request to perform various operations.
+Currently it supports bumping version for a gem.
+
+## Bump version
 
 ### Installation
-1. Add a file to your github workflow `.github/workflows/version-update.yml` with following content:
+
+Add a file to your github workflow `.github/workflows/version-update.yml` with following content:
 
 ```yaml
 
@@ -36,14 +40,16 @@ jobs:
           VERSION_FILE_PATH: <VERSION FILE PATH>
 ```
 
-2. Add the following comment in the pull request to bump the version.
+### How to use
+
+1. Add the following comment in the pull request to bump the version.
 
 ```
 /dobby version <semver level>
 ```
 where semver level can be minor/major/patch.
 
-3. Bot will add a commit to bump gem version.
+2. You can see bot will add a comment on Pull request.
    
    ![Version update comment](docs/images/version-update.png)
 
