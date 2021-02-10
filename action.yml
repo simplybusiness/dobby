@@ -1,4 +1,4 @@
-name: DobbyBot
+name: Dobby Bot
 author: opensourcetech@simplybusiness.co.uk
 description:
   A Github action which provides chat-ops functionality through PR comments. 
