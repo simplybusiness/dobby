@@ -1,8 +1,8 @@
-name: 'Simply Bot'
-author: 'opensourcetech@simplybusiness.co.uk'
+name: Dobby
+author: opensourcetech@simplybusiness.co.uk
 description:
-  Perform operation based on the comment on pull request.
-  Bumps the version in a gem.
+  A Github action which provides chat-ops functionality. You can comment on Pull request to perform various operations.
+  Currently it supports bumping version for a gem.
 branding:
   icon: code
   color: red

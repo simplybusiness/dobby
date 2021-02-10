@@ -23,16 +23,8 @@ jobs:
     if: startsWith(github.event.comment.body, '/dobby')
     
     steps:
-      # TODO: remove this step after the action is public
-      - name: action checkout
-        uses: actions/checkout@v2
-        with:
-          repository: simplybusiness/dobby
-          ref: refs/heads/master
-          token: ${{ secrets.ACCESS_TOKEN }}
-          path: ./
       - name: 'bump version' 
-        uses: ./
+        uses: simplybusiness/dobby@v1.0.0
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Change to the file path where you keep the Gem's version.
