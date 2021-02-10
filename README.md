@@ -9,11 +9,11 @@ Currently it supports bumping version for a gem.
 
 ### Installation
 
-Add a file to your github workflow `.github/workflows/version-update.yml` with following content:
+Add a file to your github workflow `.github/workflows/dobby-action.yml` with following content:
 
 ```yaml
 
-name: "version update action"
+name: "dobby action"
 on:
   issue_comment:
     types: [created]
