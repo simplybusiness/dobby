@@ -1,8 +1,7 @@
-name: Dobby
+name: DobbyBot
 author: opensourcetech@simplybusiness.co.uk
 description:
-  A Github action which provides chat-ops functionality. You can comment on Pull request to perform various operations.
-  Currently it supports bumping version for a gem.
+  A Github action which provides chat-ops functionality through PR comments. 
 branding:
   icon: code
   color: red
