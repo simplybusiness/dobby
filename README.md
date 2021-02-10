@@ -23,14 +23,6 @@ jobs:
     if: startsWith(github.event.comment.body, '/dobby')
     
     steps:
-      # TODO: remove this step after the action is public
-      - name: action checkout
-        uses: actions/checkout@v2
-        with:
-          repository: simplybusiness/dobby
-          ref: refs/heads/master
-          token: ${{ secrets.ACCESS_TOKEN }}
-          path: ./
       - name: 'bump version' 
         uses: ./
         env:
