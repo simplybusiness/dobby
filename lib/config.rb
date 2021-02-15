@@ -35,4 +35,3 @@ class Config
     JWT.encode(payload, private_key, 'RS256')
   end
 end
-
