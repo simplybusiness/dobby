@@ -27,7 +27,7 @@ class Config
   def bearer_token
     payload = {
       iat: Time.now.to_i,
-      exp: Time.now.to_i + (10 * 60),
+      exp: Time.now.to_i + (TEN_MINUTES),
       iss: ENV['DOBBY_APP_ID']
     }
     private_key = OpenSSL::PKey::RSA.new(ENV['DOBBY_PRIVATE_KEY'])
