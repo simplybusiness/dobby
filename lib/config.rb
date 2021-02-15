@@ -4,6 +4,8 @@ require 'octokit'
 require 'json'
 require 'jwt'
 
+TEN_MINUTES = 600 # seconds
+
 # configuration for octokit
 class Config
   attr_reader :client, :payload, :version_file_path, :event_name
