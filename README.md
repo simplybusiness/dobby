@@ -8,7 +8,7 @@ Currently it supports bumping version for a gem.
 ## Bump version
 
 ### Installation
-Dobby require a github app to be installed on your repository or organization wide. If you have already created a github app you can follow instruction from step 3 otherwise follow these steps: 
+Dobby requires a Github App to be installed either on an individual repository or organization wide. If you have already created a Github App you can follow instruction from step 3. Otherwise follow these steps: 
 
 1. [Create a minimal GitHub App](https://docs.github.com/en/developers/apps/creating-a-github-app), setting the following fields:
    - Set GitHub App name. 
@@ -19,9 +19,9 @@ Dobby require a github app to be installed on your repository or organization wi
 
 2. Create a Private key from the App settings page and store it securely.
 
-3. Install the App on your repository/organization wide.
+3. Install the App either on your repository or organization wide.
 
-4. Set secrets on your repository or on organization containing the GitHub App ID, and the private key you created in step 2 as DOBBY_APP_ID, DOBBY_PRIVATE_KEY
+4. Set secrets on your repository or organization containing the GitHub App ID, and the private key you created in step 2 as DOBBY_APP_ID, DOBBY_PRIVATE_KEY
 
 5. Add a file to your github workflow `.github/workflows/dobby-action.yml` with following content:
 
@@ -62,4 +62,3 @@ where semver level can be minor/major/patch.
 2. You can see bot will add a comment on Pull request.
    
    ![Version update comment](docs/images/version-update.png)
-
