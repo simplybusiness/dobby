@@ -8,20 +8,20 @@ Currently it supports bumping version for a gem.
 ## Bump version
 
 ### Installation
-Dobby require a github app to be installed on your repository. If you have already created a github app you can follow instruction from step 3 otherwise follow these steps: 
+Dobby require a github app to be installed on your repository or organization wide. If you have already created a github app you can follow instruction from step 3 otherwise follow these steps: 
 
 1. [Create a minimal GitHub App](https://docs.github.com/en/developers/apps/creating-a-github-app), setting the following fields:
    - Set GitHub App name. 
-   - Set Homepage URL to anything you like, such as your GitHub profile page.
+   - Set Homepage URL to your github repository.
    - Uncheck Active under Webhook. You do not need to enter a Webhook URL.
    - Under Repository permissions: Contents select Access: Read & write.
    - Under Repository permissions: Pull requests select Access: Read & write. 
 
 2. Create a Private key from the App settings page and store it securely.
 
-3. Install the App on your repository.
+3. Install the App on your repository/organization wide.
 
-4. Set secrets on your repository containing the GitHub App ID, and the private key you created in step 2. e.g. DOBBY_APP_ID, DOBBY_PRIVATE_KEY
+4. Set secrets on your repository or on organization containing the GitHub App ID, and the private key you created in step 2 as DOBBY_APP_ID, DOBBY_PRIVATE_KEY
 
 5. Add a file to your github workflow `.github/workflows/dobby-action.yml` with following content:
 
@@ -38,7 +38,7 @@ jobs:
     
     steps:
       - name: bump version
-        uses: simplybusiness/dobby@v1.1.0
+        uses: simplybusiness/dobby@v2.0.0
         env:
           DOBBY_APP_ID: ${{ secrets.DOBBY_APP_ID }}
           DOBBY_PRIVATE_KEY: ${{ secrets.DOBBY_PRIVATE_KEY }}
