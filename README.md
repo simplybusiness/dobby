@@ -1,5 +1,7 @@
 # Dobby
 
+![dobby](dobby-sock.png)
+
 “Dobby is free.”
 
 A Github action which provides chat-ops functionality. You can comment on Pull request to perform various operations.
