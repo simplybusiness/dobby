@@ -38,7 +38,7 @@ jobs:
     
     steps:
       - name: bump version
-        uses: simplybusiness/dobby@v2.0.0
+        uses: simplybusiness/dobby@v2.1.0
         env:
           DOBBY_APP_ID: ${{ secrets.DOBBY_APP_ID }}
           DOBBY_PRIVATE_KEY: ${{ secrets.DOBBY_PRIVATE_KEY }}
