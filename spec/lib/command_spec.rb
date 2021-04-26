@@ -33,6 +33,18 @@ describe Command do
         expect(action).to receive(:bump_version).with('minor')
         Command.new(config).call
       end
+
+      context 'when comment starts with /Dobby' do
+        let(:body) { '/Dobby version patch' }
+
+        it 'bumps the version' do
+          action = double
+          allow(Action).to receive(:new).and_return(action)
+
+          expect(action).to receive(:bump_version).with('patch')
+          Command.new(config).call
+        end
+      end
     end
 
     context 'for invalid command' do

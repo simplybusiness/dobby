@@ -10,7 +10,7 @@ class Command
 
   def initialize(config)
     @config = config
-    comment = config.payload['comment']['body'].strip
+    comment = config.payload['comment']['body'].strip.downcase
     error_msg = "Comment must be start with #{COMMAND_PREFIX}"
     raise ArgumentError, error_msg unless comment.start_with?(COMMAND_PREFIX)
 
