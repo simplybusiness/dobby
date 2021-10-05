@@ -42,13 +42,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: 'simplybusiness/dobby'
-          ref: 'v2.3.0'
-      - name: set up ruby
+          ref: 'v3.0.0'
+      - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: bump version
-        uses: simplybusiness/dobby@v2.3.0
+      - name: Bump version
+        uses: simplybusiness/dobby@v3.0.0
         env:
           DOBBY_APP_ID: ${{ secrets.DOBBY_APP_ID }}
           DOBBY_PRIVATE_KEY: ${{ secrets.DOBBY_PRIVATE_KEY }}
