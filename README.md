@@ -27,7 +27,7 @@ Dobby requires a Github App to be installed either on an individual repository o
 
 ```yaml
 
-name: "dobby action"
+name: "Dobby action"
 on:
   issue_comment:
     types: [created]
@@ -35,10 +35,20 @@ jobs:
   pr_commented:
     runs-on: ubuntu-20.04
     if: startsWith(github.event.comment.body, '/dobby')
-    
+    env:
+      BUNDLE_WITHOUT: "development:test"
     steps:
+      - name: Chekcout action
+        uses: actions/checkout@v2
+        with:
+          repository: 'simplybusiness/dobby'
+          ref: 'v2.3.0'
+      - name: set up ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: bump version
-        uses: simplybusiness/dobby@v2.1.0
+        uses: simplybusiness/dobby@v2.3.0
         env:
           DOBBY_APP_ID: ${{ secrets.DOBBY_APP_ID }}
           DOBBY_PRIVATE_KEY: ${{ secrets.DOBBY_PRIVATE_KEY }}
