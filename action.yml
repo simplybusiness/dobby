@@ -1,10 +1,13 @@
 name: Dobby Bot
 author: opensourcetech@simplybusiness.co.uk
 description:
-  A Github action which provides chat-ops functionality through PR comments. 
+  A Github action which provides chat-ops functionality through PR comments.
 branding:
   icon: code
   color: red
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - run: |
+        bundle exec ruby run.rb
+      shell: bash
