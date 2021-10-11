@@ -38,7 +38,7 @@ jobs:
     env:
       BUNDLE_WITHOUT: "development:test"
     steps:
-      - name: Chekcout action
+      - name: Checkout action
         uses: actions/checkout@v2
         with:
           repository: 'simplybusiness/dobby'
