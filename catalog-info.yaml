@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dobby
+  description: GitHub Action that updates the gem version by user input.
+spec:
+  type: service
+  lifecycle: production
