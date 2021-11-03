@@ -8,8 +8,9 @@ on:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
-  assign_issue_or_pr_to_project:
+  assign_issue_to_project:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'sbbnwjenkins' }}
     name: Triage
     steps:
       - name: Assign new issue to Incoming
