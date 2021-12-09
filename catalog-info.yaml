@@ -4,5 +4,5 @@ metadata:
   name: dobby
   description: GitHub Action that updates the gem version by user input.
 spec:
-  type: service
+  type: github action
   lifecycle: production
