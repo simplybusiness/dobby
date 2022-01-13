@@ -90,7 +90,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (1.9.1)
+    simplycop (1.9.3)
       rubocop (~> 1.12.1)
       rubocop-rails (~> 2.9.0)
       rubocop-rspec (~> 2.2.0)
