@@ -29,7 +29,7 @@ class Action
       client.update_contents(repo, version_file_path,
                              "bump #{level} version", blob_sha,
                              updated_version_file(content, level),
-                             branch: base_branch)
+                             branch: head_branch)
     else
       add_reaction('confused')
     end
