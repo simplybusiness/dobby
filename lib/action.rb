@@ -25,11 +25,11 @@ class Action
     if VALID_SEMVER_LEVELS.include?(level)
       add_reaction('+1')
 
-      content, blob_sha = fetch_content_and_blob_sha(ref: head_branch, path: version_file_path)
+      content, blob_sha = fetch_content_and_blob_sha(ref: base_branch, path: version_file_path)
       client.update_contents(repo, version_file_path,
                              "bump #{level} version", blob_sha,
                              updated_version_file(content, level),
-                             branch: head_branch)
+                             branch: base_branch)
     else
       add_reaction('confused')
     end
