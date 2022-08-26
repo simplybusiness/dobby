@@ -25,7 +25,8 @@ class Action
     if VALID_SEMVER_LEVELS.include?(level)
       add_reaction('+1')
 
-      content, blob_sha = fetch_content_and_blob_sha(ref: base_branch, path: version_file_path)
+      content = fetch_content(ref: base_branch, path: version_file_path)
+      blob_sha = fetch_blob_sha(ref: head_branch, path: version_file_path)
       client.update_contents(repo, version_file_path,
                              "bump #{level} version", blob_sha,
                              updated_version_file(content, level),
@@ -35,9 +36,14 @@ class Action
     end
   end
 
-  def fetch_content_and_blob_sha(ref:, path:)
+  def fetch_content(ref:, path:)
     content = client.contents(repo, path: path, query: { ref: ref })
-    [Base64.decode64(content['content']), content['sha']]
+    Base64.decode64(content['content'])
+  end
+
+  def fetch_blob_sha(ref:, path:)
+    content = client.contents(repo, path: path, query: { ref: ref })
+    content['sha']
   end
 
   def updated_version_file(content, level)
