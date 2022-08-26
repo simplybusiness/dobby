@@ -25,13 +25,14 @@ class Action
     if VALID_SEMVER_LEVELS.include?(level)
       add_reaction('+1')
 
-      content = fetch_content(ref: base_branch, path: version_file_path)
-      blob_sha = fetch_blob_sha(ref: head_branch, path: version_file_path)
-      updated_content = updated_version_file(content, level)
+      base_branch_content = fetch_content(ref: base_branch, path: version_file_path)
+      head_branch_content = fetch_content(ref: head_branch, path: version_file_path)
+      head_branch_blob_sha = fetch_blob_sha(ref: head_branch, path: version_file_path)
+      updated_content = updated_version_file(base_branch_content, level)
 
-      if content != updated_content
+      if head_branch_content != updated_content
         client.update_contents(repo, version_file_path,
-                               "bump #{level} version", blob_sha,
+                               "bump #{level} version", head_branch_blob_sha,
                                updated_content,
                                branch: head_branch)
       else
