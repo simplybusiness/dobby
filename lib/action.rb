@@ -27,10 +27,16 @@ class Action
 
       content = fetch_content(ref: base_branch, path: version_file_path)
       blob_sha = fetch_blob_sha(ref: head_branch, path: version_file_path)
-      client.update_contents(repo, version_file_path,
-                             "bump #{level} version", blob_sha,
-                             updated_version_file(content, level),
-                             branch: head_branch)
+      updated_content = updated_version_file(content, level)
+
+      if content != updated_content
+        client.update_contents(repo, version_file_path,
+                               "bump #{level} version", blob_sha,
+                               updated_content,
+                               branch: head_branch)
+      else
+        puts 'Nothing to update, the desired version bump is already present'
+      end
     else
       add_reaction('confused')
     end
