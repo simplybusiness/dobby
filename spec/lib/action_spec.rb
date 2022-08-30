@@ -86,6 +86,7 @@ describe Action do
 
     it 'updates the version file with new version and react with thumbs up' do
       mock_version_response(client, '1.0.0', 'my_branch')
+      mock_version_response(client, '1.0.0', 'master')
       updated_content = version_file_content('1.1.0')
       expect(client).to receive(:update_contents).with(
         repo_full_name,
