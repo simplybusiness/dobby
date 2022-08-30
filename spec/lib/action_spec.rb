@@ -54,7 +54,7 @@ describe Action do
     end
   end
 
-  describe '#fetch_content' do
+  describe '#fetch_content_and_blob_sha' do
     it 'fetch the content for a given file on a branch' do
       mock_version_response(client, '1.0.0', 'master')
       expect(client).to receive(:contents).with(
@@ -62,8 +62,19 @@ describe Action do
         path: 'lib/version.rb',
         query: { ref: 'master' }
       )
-      content = action.fetch_content_and_blob_sha(ref: 'master', path: 'lib/version.rb')
-      expect(content).to eq([version_file_content('1.0.0'), 'abc1234'])
+      content = action.fetch_content(ref: 'master', path: 'lib/version.rb')
+      expect(content).to eq(version_file_content('1.0.0'))
+    end
+
+    it 'fetch the blob_sha for a given file on a branch' do
+      mock_version_response(client, '1.0.0', 'master')
+      expect(client).to receive(:contents).with(
+        repo_full_name,
+        path: 'lib/version.rb',
+        query: { ref: 'master' }
+      )
+      content = action.fetch_blob_sha(ref: 'master', path: 'lib/version.rb')
+      expect(content).to eq('abc1234')
     end
   end
 
