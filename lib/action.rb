@@ -30,14 +30,7 @@ class Action
       head_branch_blob_sha = fetch_blob_sha(ref: head_branch, path: version_file_path)
       updated_content = updated_version_file(base_branch_content, level)
 
-      if head_branch_content != updated_content
-        client.update_contents(repo, version_file_path,
-                               "bump #{level} version", head_branch_blob_sha,
-                               updated_content,
-                               branch: head_branch)
-      else
-        puts 'Nothing to update, the desired version bump is already present'
-      end
+      check_and_bump_version(level, head_branch_content, head_branch_blob_sha, updated_content)
     else
       add_reaction('confused')
     end
@@ -64,6 +57,17 @@ class Action
   end
 
   private
+
+  def check_and_bump_version(level, head_branch_content, head_branch_blob_sha, updated_content)
+    if head_branch_content != updated_content
+      client.update_contents(repo, version_file_path,
+                             "bump #{level} version", head_branch_blob_sha,
+                             updated_content,
+                             branch: head_branch)
+    else
+      puts 'Nothing to update, the desired version bump is already present'
+    end
+  end
 
   def fetch_version(content)
     version = content.match(GEMSPEC_VERSION) || content.match(SEMVER_VERSION)
