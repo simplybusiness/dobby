@@ -21,7 +21,7 @@ class Action
     assign_pr_attributes!(payload['issue']['number'])
   end
 
-  def bump_version(level)
+  def initiate_version_update(level)
     if VALID_SEMVER_LEVELS.include?(level)
       add_reaction('+1')
 

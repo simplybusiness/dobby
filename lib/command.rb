@@ -22,7 +22,7 @@ class Command
     action = Action.new(config)
     case command
     when 'version'
-      action.bump_version(options)
+      action.initiate_version_update(options)
     else
       puts 'Command is invalid'
       action.add_reaction('confused')

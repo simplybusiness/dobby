@@ -54,7 +54,7 @@ describe Action do
     end
   end
 
-  describe '#fetch_content_and_blob_sha' do
+  describe '#fetch_content' do
     it 'fetch the content for a given file on a branch' do
       mock_version_response(client, '1.0.0', 'master')
       expect(client).to receive(:contents).with(
@@ -65,7 +65,9 @@ describe Action do
       content = action.fetch_content(ref: 'master', path: 'lib/version.rb')
       expect(content).to eq(version_file_content('1.0.0'))
     end
+  end
 
+  describe '#fetch_blob_sha' do
     it 'fetch the blob_sha for a given file on a branch' do
       mock_version_response(client, '1.0.0', 'master')
       expect(client).to receive(:contents).with(
@@ -78,10 +80,10 @@ describe Action do
     end
   end
 
-  describe '#bump_version' do
+  describe '#initiate_version_update' do
     it 'reacts with confused emoji for invalid semver' do
       expect(action).to receive(:add_reaction).with('confused')
-      action.bump_version('invalid_semver')
+      action.initiate_version_update('invalid_semver')
     end
 
     it 'updates the version file with new version and react with thumbs up' do
@@ -97,7 +99,7 @@ describe Action do
         branch: 'my_branch'
       )
       expect(action).to receive(:add_reaction).with('+1')
-      action.bump_version('minor')
+      action.initiate_version_update('minor')
     end
   end
 
