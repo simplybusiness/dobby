@@ -30,7 +30,7 @@ describe Command do
         action = double
         allow(Action).to receive(:new).and_return(action)
 
-        expect(action).to receive(:bump_version).with('minor')
+        expect(action).to receive(:initiate_version_update).with('minor')
         Command.new(config).call
       end
 
@@ -41,7 +41,7 @@ describe Command do
           action = double
           allow(Action).to receive(:new).and_return(action)
 
-          expect(action).to receive(:bump_version).with('patch')
+          expect(action).to receive(:initiate_version_update).with('patch')
           Command.new(config).call
         end
       end
@@ -55,7 +55,7 @@ describe Command do
         allow(Action).to receive(:new).and_return(action)
 
         expect(action).to receive(:add_reaction).with('confused')
-        expect(action).to_not receive(:bump_version).with('minor')
+        expect(action).to_not receive(:initiate_version_update).with('minor')
         Command.new(config).call
       end
     end

@@ -21,23 +21,29 @@ class Action
     assign_pr_attributes!(payload['issue']['number'])
   end
 
-  def bump_version(level)
+  def initiate_version_update(level)
     if VALID_SEMVER_LEVELS.include?(level)
       add_reaction('+1')
 
-      content, blob_sha = fetch_content_and_blob_sha(ref: head_branch, path: version_file_path)
-      client.update_contents(repo, version_file_path,
-                             "bump #{level} version", blob_sha,
-                             updated_version_file(content, level),
-                             branch: head_branch)
+      base_branch_content = fetch_content(ref: base_branch, path: version_file_path)
+      head_branch_content = fetch_content(ref: head_branch, path: version_file_path)
+      head_branch_blob_sha = fetch_blob_sha(ref: head_branch, path: version_file_path)
+      updated_content = updated_version_file(base_branch_content, level)
+
+      check_and_bump_version(level, head_branch_content, head_branch_blob_sha, updated_content)
     else
       add_reaction('confused')
     end
   end
 
-  def fetch_content_and_blob_sha(ref:, path:)
+  def fetch_content(ref:, path:)
     content = client.contents(repo, path: path, query: { ref: ref })
-    [Base64.decode64(content['content']), content['sha']]
+    Base64.decode64(content['content'])
+  end
+
+  def fetch_blob_sha(ref:, path:)
+    content = client.contents(repo, path: path, query: { ref: ref })
+    content['sha']
   end
 
   def updated_version_file(content, level)
@@ -51,6 +57,17 @@ class Action
   end
 
   private
+
+  def check_and_bump_version(level, head_branch_content, head_branch_blob_sha, updated_content)
+    if head_branch_content != updated_content
+      client.update_contents(repo, version_file_path,
+                             "bump #{level} version", head_branch_blob_sha,
+                             updated_content,
+                             branch: head_branch)
+    else
+      puts 'Nothing to update, the desired version bump is already present'
+    end
+  end
 
   def fetch_version(content)
     version = content.match(GEMSPEC_VERSION) || content.match(SEMVER_VERSION)
