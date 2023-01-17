@@ -1,0 +1,7 @@
+inherit_gem:
+  simplycop:
+    - .simplycop.yml
+    - .simplycop_rspec.yml
+
+AllCops:
+  TargetRubyVersion: 2.7

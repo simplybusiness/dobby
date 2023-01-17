@@ -9,7 +9,7 @@ class Action
   SEMVER_VERSION =
     /["'](0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']/ # rubocop:disable Layout/LineLength
   GEMSPEC_VERSION = Regexp.new(/\.version\s*=\s*/.to_s + SEMVER_VERSION.to_s).freeze
-  VALID_SEMVER_LEVELS = %w[minor major patch].freeze
+  VALID_SEMVER_LEVELS = ['minor', 'major', 'patch'].freeze
 
   def initialize(config)
     @client = config.client
@@ -59,13 +59,15 @@ class Action
   private
 
   def check_and_bump_version(level, head_branch_content, head_branch_blob_sha, updated_content)
-    if head_branch_content != updated_content
-      client.update_contents(repo, version_file_path,
-                             "bump #{level} version", head_branch_blob_sha,
-                             updated_content,
-                             branch: head_branch)
-    else
+    if head_branch_content == updated_content
       puts 'Nothing to update, the desired version bump is already present'
+    else
+      client.update_contents(
+        repo, version_file_path,
+        "bump #{level} version", head_branch_blob_sha,
+        updated_content,
+        branch: head_branch
+      )
     end
   end
 

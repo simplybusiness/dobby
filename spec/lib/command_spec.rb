@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../spec_helper'
-# rubocop:disable Metrics/BlockLength
 describe Command do
   let(:config) do
     OpenStruct.new(
@@ -24,8 +23,9 @@ describe Command do
   end
 
   describe 'version' do
-    context 'for valid command' do
+    context 'when valid command' do
       let(:body) { '/dobby version minor' }
+
       it 'bumps the version' do
         action = double
         allow(Action).to receive(:new).and_return(action)
@@ -47,7 +47,7 @@ describe Command do
       end
     end
 
-    context 'for invalid command' do
+    context 'when invalid command' do
       let(:body) { '/dobby barney laugh' }
 
       it 'does not bump the version but reacts with confused emoji' do
@@ -61,4 +61,3 @@ describe Command do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength
