@@ -1,0 +1,23 @@
+name: Huxley TechDocs
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "docs/**"
+      - "mkdocs.yaml"
+      - ".github/workflows/publish-docs.yaml"
+  schedule:
+    - cron: "15 1 1 * *"
+
+concurrency: huxley-techdocs-${{ github.ref }}
+
+jobs:
+  publish-techdocs:
+    uses: simplybusiness/github-action-reusable-workflows/.github/workflows/techdocs.yaml@v1
+    with:
+      repo: "github-action-reusable-workflows"
+    secrets:
+      region: ${{ secrets.AWS_LIVE_CICD_REGION }}
+      aws-access-key-id: ${{ secrets.AWS_LIVE_CICD_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_LIVE_CICD_SECRET_ACCESS_KEY }}
