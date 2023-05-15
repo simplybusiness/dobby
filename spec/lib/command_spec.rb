@@ -3,13 +3,15 @@
 require_relative '../spec_helper'
 describe Command do
   let(:config) do
-    OpenStruct.new(
-      payload: {
+    test_config = double
+    allow(test_config).to receive(:payload).and_return(
+      {
         'comment' => {
           'body' => body
         }
       }
     )
+    test_config
   end
 
   describe 'initialize' do
