@@ -6,10 +6,11 @@ describe Action do
   let(:client) { instance_double(Octokit::Client) }
 
   let(:config) do
-    OpenStruct.new(
-      client: client,
-      version_file_path: 'lib/version.rb',
-      payload: {
+    test_config = double
+    allow(test_config).to receive(:client).and_return(client)
+    allow(test_config).to receive(:version_file_path).and_return('lib/version.rb')
+    allow(test_config).to receive(:payload).and_return(
+      {
         'repository' => { 'full_name' => repo_full_name },
         'issue' => {
           'number' => 1
@@ -19,6 +20,7 @@ describe Action do
         }
       }
     )
+    test_config
   end
 
   let(:action) { Action.new(config) }

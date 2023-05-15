@@ -11,9 +11,9 @@ class Config
   attr_reader :client, :payload, :version_file_path, :event_name
 
   def initialize
-    @payload = JSON.parse(File.read(ENV['GITHUB_EVENT_PATH']))
-    @event_name = ENV['GITHUB_EVENT_NAME']
-    @version_file_path = ENV['VERSION_FILE_PATH']
+    @payload = JSON.parse(File.read(ENV.fetch('GITHUB_EVENT_PATH', nil)))
+    @event_name = ENV.fetch('GITHUB_EVENT_NAME', nil)
+    @version_file_path = ENV.fetch('VERSION_FILE_PATH', nil)
     @client = Octokit::Client.new(access_token: access_token)
   end
 
@@ -30,9 +30,9 @@ class Config
     payload = {
       iat: Time.now.to_i,
       exp: Time.now.to_i + TEN_MINUTES,
-      iss: ENV['DOBBY_APP_ID']
+      iss: ENV.fetch('DOBBY_APP_ID', nil)
     }
-    private_key = OpenSSL::PKey::RSA.new(ENV['DOBBY_PRIVATE_KEY'])
+    private_key = OpenSSL::PKey::RSA.new(ENV.fetch('DOBBY_PRIVATE_KEY', nil))
 
     JWT.encode(payload, private_key, 'RS256')
   end
