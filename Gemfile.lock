@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.4.3)
+    activesupport (7.0.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -85,7 +85,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (1.12.21)
+    simplycop (1.12.22)
       rubocop (~> 1.42)
       rubocop-rails (~> 2.17)
       rubocop-rspec (~> 2.16)
@@ -104,7 +104,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.12.5)
   semantic
   simplecov (< 0.18)
-  simplycop (< 1.12.22)
+  simplycop (< 1.12.23)
 
 BUNDLED WITH
    2.4.12
