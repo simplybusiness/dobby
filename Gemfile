@@ -10,5 +10,5 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-mocks', '~> 3.12.5'
   gem 'simplecov', '< 0.18'
-  gem 'simplycop', '< 1.12.23'
+  gem 'simplycop', '< 1.12.24'
 end
