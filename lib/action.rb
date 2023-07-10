@@ -33,7 +33,7 @@ class Action
       check_and_bump_version(level, head_branch_content, head_branch_blob_sha, updated_content)
     else
       add_reaction('confused')
-      puts "::error file=#{path},title=Unknown semver level::The semver level #{level} is not valid"
+      puts "::error title=Unknown semver level::The semver level #{level} is not valid"
     end
   end
 

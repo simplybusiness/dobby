@@ -12,7 +12,7 @@ class Command
     @config = config
     comment = config.payload['comment']['body'].strip.downcase
     error_msg = "Comment must be start with #{COMMAND_PREFIX}"
-    puts "::error file=#{path},title=Arguement Error::#{error_msg}"
+    puts "::error title=Arguement Error::#{error_msg}"
     raise ArgumentError, error_msg unless comment.start_with?(COMMAND_PREFIX)
 
     cmd = comment.delete_prefix(COMMAND_PREFIX)
@@ -25,7 +25,7 @@ class Command
     when 'version'
       action.initiate_version_update(options)
     else
-      puts "::error file=#{path},title=Unknown command::The command #{command} is not valid"
+      puts "::error title=Unknown command::The command #{command} is not valid"
       action.add_reaction('confused')
     end
   end
