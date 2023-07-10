@@ -3,6 +3,7 @@
 require 'octokit'
 require 'json'
 require 'jwt'
+require 'openssl'
 
 TEN_MINUTES = 600 # seconds
 
@@ -32,6 +33,7 @@ class Config
       exp: Time.now.to_i + TEN_MINUTES,
       iss: ENV.fetch('DOBBY_APP_ID')
     }
+
     private_key = OpenSSL::PKey::RSA.new(ENV.fetch('DOBBY_PRIVATE_KEY'))
 
     JWT.encode(payload, private_key, 'RS256')

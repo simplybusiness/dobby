@@ -33,11 +33,17 @@ class Action
       check_and_bump_version(level, head_branch_content, head_branch_blob_sha, updated_content)
     else
       add_reaction('confused')
+      puts "::error title=Unknown semver level::The semver level #{level} is not valid"
     end
   end
 
   def fetch_content(ref:, path:)
-    content = client.contents(repo, path: path, query: { ref: ref })
+    begin
+      content = client.contents(repo, path: path, query: { ref: ref })
+    rescue Octokit::NotFound => e
+      puts "::error file=#{path},title=Error fetching file #{path}::#{e.message} "
+      raise e
+    end
     Base64.decode64(content['content'])
   end
 
@@ -60,7 +66,7 @@ class Action
 
   def check_and_bump_version(level, head_branch_content, head_branch_blob_sha, updated_content)
     if head_branch_content == updated_content
-      puts 'Nothing to update, the desired version bump is already present'
+      puts '::notice title=Nothing to update::Nothing to update, the desired version bump is already present'
     else
       client.update_contents(
         repo, version_file_path,
