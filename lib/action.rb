@@ -56,7 +56,7 @@ class Action
   def updated_version_file(content, level)
     version = fetch_version(content)
     updated_version = version.increment!(level.to_sym)
-    quote = prefer_double_quotes ? '"' : '\''
+    quote = prefer_double_quotes ? '"' : "'"
 
     content.gsub(SEMVER_VERSION, "#{quote}#{updated_version}#{quote}")
   end
