@@ -30,10 +30,10 @@ module Helpers
       ).and_raise(Octokit::UnprocessableEntity)
     end
 
-    def version_file_content(version)
+    def version_file_content(version, quote = "'")
       %(
         module TestRepo
-          VERSION='#{version}'
+          VERSION=#{quote}#{version}#{quote}
         end
        )
     end

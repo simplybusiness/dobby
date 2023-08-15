@@ -4,7 +4,7 @@ require 'octokit'
 require 'semantic'
 # Run action based on the command
 class Action
-  attr_reader :client, :version_file_path, :repo, :head_branch, :base_branch, :comment_id
+  attr_reader :client, :version_file_path, :repo, :head_branch, :base_branch, :comment_id, :prefer_double_quotes
 
   SEMVER_VERSION =
     /["'](0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']/ # rubocop:disable Layout/LineLength
@@ -17,6 +17,7 @@ class Action
     payload = config.payload
     @repo = payload['repository']['full_name']
     @comment_id = payload['comment']['id']
+    @prefer_double_quotes = config.prefer_double_quotes
 
     assign_pr_attributes!(payload['issue']['number'])
   end
@@ -55,7 +56,9 @@ class Action
   def updated_version_file(content, level)
     version = fetch_version(content)
     updated_version = version.increment!(level.to_sym)
-    content.gsub(SEMVER_VERSION, "'#{updated_version}'")
+    quote = prefer_double_quotes ? '"' : "'"
+
+    content.gsub(SEMVER_VERSION, "#{quote}#{updated_version}#{quote}")
   end
 
   def add_reaction(reaction)

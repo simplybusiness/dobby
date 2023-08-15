@@ -55,6 +55,9 @@ jobs:
           # Change to the file path where you keep the Gem's version.
           # It is usually `lib/<gem name>/version.rb` or in the gemspec file.
           VERSION_FILE_PATH: <VERSION FILE PATH>
+          # You can set PREFER_DOUBLE_QUOTES to "yes" if you want Dobby to 
+          # enclose the new version value in double quotes instead of single quotes ("no" is the default).
+          PREFER_DOUBLE_QUOTES: <yes|no>
 ```
 
 **NOTE:** Workflow will only work once it merged to default (usually master) branch. It is because event `issue_comment` only work on default branch. See [discussion](https://github.community/t/on-issue-comment-events-are-not-triggering-workflows/16784/4) for more detail.

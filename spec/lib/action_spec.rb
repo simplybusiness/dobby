@@ -4,6 +4,7 @@ require 'ostruct'
 require_relative '../spec_helper'
 describe Action do
   let(:client) { instance_double(Octokit::Client) }
+  let(:prefer_double_quotes) { false }
 
   let(:config) do
     test_config = double
@@ -20,6 +21,7 @@ describe Action do
         }
       }
     )
+    allow(test_config).to receive(:prefer_double_quotes).and_return(prefer_double_quotes)
     test_config
   end
 
@@ -52,6 +54,16 @@ describe Action do
       expected_content = version_file_content('1.0.1')
       updated_content = action.updated_version_file(content, 'patch')
       expect(updated_content).to eq(expected_content)
+    end
+
+    context 'when prefer_double_quotes configuration options is enabled' do
+      let(:prefer_double_quotes) { true }
+
+      it 'encloses the new version value in double quotes' do
+        expected_content = version_file_content('1.0.1', '"')
+        updated_content = action.updated_version_file(content, 'patch')
+        expect(updated_content).to eq(expected_content)
+      end
     end
   end
 
