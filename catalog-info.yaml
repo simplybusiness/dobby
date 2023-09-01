@@ -3,6 +3,8 @@ kind: Component
 metadata:
   name: dobby
   description: GitHub Action that updates the gem version by user input.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: github action
   lifecycle: production
