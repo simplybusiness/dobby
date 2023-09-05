@@ -8,7 +8,8 @@ describe Action do
 
   let(:config) do
     test_config = double
-    allow(test_config).to receive_messages(client: client, version_file_path: 'lib/version.rb', payload: {
+    allow(test_config).to receive_messages(
+      client: client, version_file_path: 'lib/version.rb', payload: {
         'repository' => { 'full_name' => repo_full_name },
         'issue' => {
           'number' => 1
@@ -16,7 +17,8 @@ describe Action do
         'comment' => {
           'id' => 123
         }
-      }, prefer_double_quotes: prefer_double_quotes)
+      }, prefer_double_quotes: prefer_double_quotes
+    )
     test_config
   end
 
