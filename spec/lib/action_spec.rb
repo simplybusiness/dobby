@@ -8,10 +8,7 @@ describe Action do
 
   let(:config) do
     test_config = double
-    allow(test_config).to receive(:client).and_return(client)
-    allow(test_config).to receive(:version_file_path).and_return('lib/version.rb')
-    allow(test_config).to receive(:payload).and_return(
-      {
+    allow(test_config).to receive_messages(client: client, version_file_path: 'lib/version.rb', payload: {
         'repository' => { 'full_name' => repo_full_name },
         'issue' => {
           'number' => 1
@@ -19,9 +16,7 @@ describe Action do
         'comment' => {
           'id' => 123
         }
-      }
-    )
-    allow(test_config).to receive(:prefer_double_quotes).and_return(prefer_double_quotes)
+      }, prefer_double_quotes: prefer_double_quotes)
     test_config
   end
 
