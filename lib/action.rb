@@ -55,7 +55,7 @@ class Action
 
   def updated_version_file(content, level)
     version = fetch_version(content)
-    updated_version = version.increment!(level.to_sym)
+    updated_version = fetch_bumped_version(version, level)
     quote = prefer_double_quotes ? '"' : "'"
 
     content.gsub(SEMVER_VERSION, "#{quote}#{updated_version}#{quote}")
@@ -83,6 +83,10 @@ class Action
   def fetch_version(content)
     version = content.match(GEMSPEC_VERSION) || content.match(SEMVER_VERSION)
     Semantic::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, ''))
+  end
+
+  def fetch_bumped_version(version, level)
+    version.increment!(level.to_sym)
   end
 
   def assign_pr_attributes!(pr_number)
