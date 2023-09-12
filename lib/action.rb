@@ -24,6 +24,7 @@ class Action
     assign_pr_attributes!(payload['issue']['number'])
   end
 
+  # rubocop:disable Metrics/AbcSize
   def initiate_version_update(level)
     if VALID_SEMVER_LEVELS.include?(level)
       add_reaction('+1')
@@ -44,6 +45,7 @@ class Action
       puts "::error title=Unknown semver level::The semver level #{level} is not valid"
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def fetch_content(ref:, path:)
     begin
