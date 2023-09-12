@@ -6,7 +6,7 @@ module Helpers
       'simplybusiness/test'
     end
 
-    def mock_version_response(client, version, branch)
+    def mock_version_response(client, version, branch, path = 'lib/version.rb')
       content = {
         'content' => Base64.encode64(
           version_file_content(version)
@@ -14,7 +14,7 @@ module Helpers
         'sha' => 'abc1234'
       }
       allow(client).to receive(:contents)
-        .with(repo_full_name, path: 'lib/version.rb', query: { ref: branch })
+        .with(repo_full_name, path: path, query: { ref: branch })
         .and_return(content)
     end
 

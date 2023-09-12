@@ -5,6 +5,7 @@ require_relative '../spec_helper'
 describe Action do
   let(:client) { instance_double(Octokit::Client) }
   let(:prefer_double_quotes) { false }
+  let(:other_version_file_paths) { [] }
 
   let(:config) do
     test_config = double
@@ -17,7 +18,7 @@ describe Action do
         'comment' => {
           'id' => 123
         }
-      }, prefer_double_quotes: prefer_double_quotes
+      }, prefer_double_quotes: prefer_double_quotes, other_version_file_paths: other_version_file_paths
     )
     test_config
   end
@@ -35,21 +36,9 @@ describe Action do
   describe '#updated_version_file' do
     let(:content) { version_file_content('1.0.0') }
 
-    it 'bumps the major version' do
+    it 'updates the version' do
       expected_content = version_file_content('2.0.0')
-      updated_content = action.updated_version_file(content, 'major')
-      expect(updated_content).to eq(expected_content)
-    end
-
-    it 'bumps the minor version' do
-      expected_content = version_file_content('1.1.0')
-      updated_content = action.updated_version_file(content, 'minor')
-      expect(updated_content).to eq(expected_content)
-    end
-
-    it 'bumps the patch version' do
-      expected_content = version_file_content('1.0.1')
-      updated_content = action.updated_version_file(content, 'patch')
+      updated_content = action.updated_version_file(content, '2.0.0')
       expect(updated_content).to eq(expected_content)
     end
 
@@ -58,7 +47,7 @@ describe Action do
 
       it 'encloses the new version value in double quotes' do
         expected_content = version_file_content('1.0.1', '"')
-        updated_content = action.updated_version_file(content, 'patch')
+        updated_content = action.updated_version_file(content, '1.0.1')
         expect(updated_content).to eq(expected_content)
       end
     end
@@ -96,10 +85,26 @@ describe Action do
       action.initiate_version_update('invalid_semver')
     end
 
-    it 'updates the version file with new version and react with thumbs up' do
-      mock_version_response(client, '1.0.0', 'my_branch')
-      mock_version_response(client, '1.0.0', 'master')
-      updated_content = version_file_content('1.1.0')
+    it 'bumps major version' do
+      mock_version_response(client, '1.3.4', 'my_branch')
+      mock_version_response(client, '1.3.4', 'master')
+      updated_content = version_file_content('2.0.0')
+      expect(client).to receive(:update_contents).with(
+        repo_full_name,
+        'lib/version.rb',
+        'bump major version',
+        'abc1234',
+        updated_content,
+        branch: 'my_branch'
+      )
+      expect(action).to receive(:add_reaction).with('+1')
+      action.initiate_version_update('major')
+    end
+
+    it 'bumps minor version' do
+      mock_version_response(client, '1.3.4', 'my_branch')
+      mock_version_response(client, '1.3.4', 'master')
+      updated_content = version_file_content('1.4.0')
       expect(client).to receive(:update_contents).with(
         repo_full_name,
         'lib/version.rb',
@@ -110,6 +115,62 @@ describe Action do
       )
       expect(action).to receive(:add_reaction).with('+1')
       action.initiate_version_update('minor')
+    end
+
+    it 'bumps patch version' do
+      mock_version_response(client, '1.3.4', 'my_branch')
+      mock_version_response(client, '1.3.4', 'master')
+      updated_content = version_file_content('1.3.5')
+      expect(client).to receive(:update_contents).with(
+        repo_full_name,
+        'lib/version.rb',
+        'bump patch version',
+        'abc1234',
+        updated_content,
+        branch: 'my_branch'
+      )
+      expect(action).to receive(:add_reaction).with('+1')
+      action.initiate_version_update('patch')
+    end
+
+    context 'when other version files need to be changed' do
+      let(:other_version_file_paths) { ['package.json', 'docs/index.md'] }
+
+      it 'bumps every file specified' do
+        mock_version_response(client, '1.3.4', 'my_branch')
+        mock_version_response(client, '1.3.4', 'master')
+        mock_version_response(client, '1.3.4', 'my_branch', 'package.json')
+        mock_version_response(client, '1.3.4', 'master', 'package.json')
+        mock_version_response(client, '1.3.4', 'my_branch', 'docs/index.md')
+        mock_version_response(client, '1.3.4', 'master', 'docs/index.md')
+        updated_content = version_file_content('2.0.0')
+        expect(client).to receive(:update_contents).with(
+          repo_full_name,
+          'lib/version.rb',
+          'bump major version',
+          'abc1234',
+          updated_content,
+          branch: 'my_branch'
+        ).once
+        expect(client).to receive(:update_contents).with(
+          repo_full_name,
+          'package.json',
+          'Bump 1.3.4 to 2.0.0',
+          'abc1234',
+          updated_content,
+          branch: 'my_branch'
+        ).once
+        expect(client).to receive(:update_contents).with(
+          repo_full_name,
+          'docs/index.md',
+          'Bump 1.3.4 to 2.0.0',
+          'abc1234',
+          updated_content,
+          branch: 'my_branch'
+        ).once
+        expect(action).to receive(:add_reaction).with('+1')
+        action.initiate_version_update('major')
+      end
     end
   end
 
