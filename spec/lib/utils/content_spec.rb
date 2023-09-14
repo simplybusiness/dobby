@@ -14,7 +14,8 @@ describe Content do
         'comment' => {
           'id' => 123
         }
-      })
+      }
+    )
     test_config
   end
   let(:content) { Content.new(config: config, ref: 'master', path: 'lib/version.rb') }
