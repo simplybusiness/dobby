@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../../spec_helper'
+require_relative '../../../lib/utils/content'
+
 describe Content do
   let(:client) { instance_double(Octokit::Client) }
   let(:config) do
