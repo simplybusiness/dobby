@@ -34,7 +34,10 @@ describe Action do
   end
 
   describe '#updated_version_file' do
-    let(:content) { version_file_content('1.0.0') }
+    let(:content) do
+      mock_version_response(client, '1.0.0', 'master')
+      Content.new(config: config, ref: 'master', path: 'lib/version.rb')
+    end
 
     it 'updates the version' do
       expected_content = version_file_content('2.0.0')
@@ -50,32 +53,6 @@ describe Action do
         updated_content = action.updated_version_file(content, '1.0.1')
         expect(updated_content).to eq(expected_content)
       end
-    end
-  end
-
-  describe '#fetch_content' do
-    it 'fetch the content for a given file on a branch' do
-      mock_version_response(client, '1.0.0', 'master')
-      expect(client).to receive(:contents).with(
-        repo_full_name,
-        path: 'lib/version.rb',
-        query: { ref: 'master' }
-      )
-      content = action.fetch_content(ref: 'master', path: 'lib/version.rb')
-      expect(content).to eq(version_file_content('1.0.0'))
-    end
-  end
-
-  describe '#fetch_blob_sha' do
-    it 'fetch the blob_sha for a given file on a branch' do
-      mock_version_response(client, '1.0.0', 'master')
-      expect(client).to receive(:contents).with(
-        repo_full_name,
-        path: 'lib/version.rb',
-        query: { ref: 'master' }
-      )
-      content = action.fetch_blob_sha(ref: 'master', path: 'lib/version.rb')
-      expect(content).to eq('abc1234')
     end
   end
 
