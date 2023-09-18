@@ -7,8 +7,7 @@ require_relative 'utils/bump'
 
 # Run action based on the command
 class Action
-  attr_reader :client, :version_file_path, :other_version_file_paths, :repo, :head_branch, :base_branch, :comment_id,
-              :prefer_double_quotes
+  attr_reader :client, :version_file_path, :other_version_file_paths, :repo, :head_branch, :base_branch, :comment_id
 
   VALID_SEMVER_LEVELS = ['minor', 'major', 'patch'].freeze
 
@@ -20,7 +19,6 @@ class Action
     @other_version_file_paths = config.other_version_file_paths
     @repo = payload['repository']['full_name']
     @comment_id = payload['comment']['id']
-    @prefer_double_quotes = config.prefer_double_quotes
 
     assign_pr_attributes!(payload['issue']['number'])
   end

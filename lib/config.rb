@@ -9,14 +9,13 @@ TEN_MINUTES = 600 # seconds
 
 # configuration for octokit
 class Config
-  attr_reader :client, :payload, :version_file_path, :other_version_file_paths, :event_name, :prefer_double_quotes
+  attr_reader :client, :payload, :version_file_path, :other_version_file_paths, :event_name
 
   def initialize
     @payload = JSON.parse(File.read(ENV.fetch('GITHUB_EVENT_PATH')))
     @event_name = ENV.fetch('GITHUB_EVENT_NAME')
     @version_file_path = ENV.fetch('VERSION_FILE_PATH')
     @other_version_file_paths = ENV.fetch('OTHER_VERSION_FILE_PATHS').split(",")
-    @prefer_double_quotes = ENV.fetch('PREFER_DOUBLE_QUOTES', 'no') == 'yes'
     @client = Octokit::Client.new(access_token: access_token)
   end
 
