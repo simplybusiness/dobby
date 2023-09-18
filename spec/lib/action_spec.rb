@@ -4,7 +4,6 @@ require 'ostruct'
 require_relative '../spec_helper'
 describe Action do
   let(:client) { instance_double(Octokit::Client) }
-  let(:prefer_double_quotes) { false }
   let(:other_version_file_paths) { [] }
 
   let(:config) do
@@ -18,7 +17,7 @@ describe Action do
         'comment' => {
           'id' => 123
         }
-      }, prefer_double_quotes: prefer_double_quotes, other_version_file_paths: other_version_file_paths
+      }, other_version_file_paths: other_version_file_paths
     )
     test_config
   end
