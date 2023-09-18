@@ -3,15 +3,13 @@
 require 'octokit'
 require 'semantic'
 require_relative 'utils/content'
+require_relative 'utils/bump'
 
 # Run action based on the command
 class Action
   attr_reader :client, :version_file_path, :other_version_file_paths, :repo, :head_branch, :base_branch, :comment_id,
               :prefer_double_quotes
 
-  SEMVER_VERSION =
-    /["'](0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']/ # rubocop:disable Layout/LineLength
-  GEMSPEC_VERSION = Regexp.new(/\.version\s*=\s*/.to_s + SEMVER_VERSION.to_s).freeze
   VALID_SEMVER_LEVELS = ['minor', 'major', 'patch'].freeze
 
   def initialize(config)
@@ -27,31 +25,14 @@ class Action
     assign_pr_attributes!(payload['issue']['number'])
   end
 
-  # rubocop:disable Metrics/AbcSize
   def initiate_version_update(level)
     if VALID_SEMVER_LEVELS.include?(level)
       add_reaction('+1')
-
-      base_branch_content = Content.new(config: @config, ref: base_branch, path: version_file_path)
-      head_branch_content = Content.new(config: @config, ref: head_branch, path: version_file_path)
-
-      version = fetch_version(base_branch_content)
-      updated_version = fetch_bumped_version(version, level)
-
-      updated_content = updated_version_file(base_branch_content, updated_version)
-      check_and_bump_version(level, head_branch_content, updated_content)
-
-      bump_other_version_files(base_branch, head_branch, version, updated_version)
+      Bump.new(@config, level).bump_everything
     else
       add_reaction('confused')
       puts "::error title=Unknown semver level::The semver level #{level} is not valid"
     end
-  end
-  # rubocop:enable Metrics/AbcSize
-
-  def updated_version_file(content, updated_version)
-    quote = prefer_double_quotes ? '"' : "'"
-    content.content.gsub(SEMVER_VERSION, "#{quote}#{updated_version}#{quote}")
   end
 
   def add_reaction(reaction)
@@ -92,15 +73,6 @@ class Action
         )
       end
     end
-  end
-
-  def fetch_version(content)
-    version = content.content.match(GEMSPEC_VERSION) || content.content.match(SEMVER_VERSION)
-    Semantic::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, ''))
-  end
-
-  def fetch_bumped_version(version, level)
-    version.increment!(level.to_sym)
   end
 
   def assign_pr_attributes!(pr_number)

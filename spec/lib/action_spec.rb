@@ -33,29 +33,6 @@ describe Action do
                   })
   end
 
-  describe '#updated_version_file' do
-    let(:content) do
-      mock_version_response(client, '1.0.0', 'master')
-      Content.new(config: config, ref: 'master', path: 'lib/version.rb')
-    end
-
-    it 'updates the version' do
-      expected_content = version_file_content('2.0.0')
-      updated_content = action.updated_version_file(content, '2.0.0')
-      expect(updated_content).to eq(expected_content)
-    end
-
-    context 'when prefer_double_quotes configuration options is enabled' do
-      let(:prefer_double_quotes) { true }
-
-      it 'encloses the new version value in double quotes' do
-        expected_content = version_file_content('1.0.1', '"')
-        updated_content = action.updated_version_file(content, '1.0.1')
-        expect(updated_content).to eq(expected_content)
-      end
-    end
-  end
-
   describe '#initiate_version_update' do
     it 'reacts with confused emoji for invalid semver' do
       expect(action).to receive(:add_reaction).with('confused')
@@ -69,7 +46,7 @@ describe Action do
       expect(client).to receive(:update_contents).with(
         repo_full_name,
         'lib/version.rb',
-        'bump major version',
+        'Bump major version',
         'abc1234',
         updated_content,
         branch: 'my_branch'
@@ -85,7 +62,7 @@ describe Action do
       expect(client).to receive(:update_contents).with(
         repo_full_name,
         'lib/version.rb',
-        'bump minor version',
+        'Bump minor version',
         'abc1234',
         updated_content,
         branch: 'my_branch'
@@ -101,7 +78,23 @@ describe Action do
       expect(client).to receive(:update_contents).with(
         repo_full_name,
         'lib/version.rb',
-        'bump patch version',
+        'Bump patch version',
+        'abc1234',
+        updated_content,
+        branch: 'my_branch'
+      )
+      expect(action).to receive(:add_reaction).with('+1')
+      action.initiate_version_update('patch')
+    end
+
+    it 'maintains double quotes' do
+      mock_version_response(client, '1.3.4', 'my_branch', 'lib/version.rb', '"')
+      mock_version_response(client, '1.3.4', 'master', 'lib/version.rb', '"')
+      updated_content = version_file_content('1.3.5', '"')
+      expect(client).to receive(:update_contents).with(
+        repo_full_name,
+        'lib/version.rb',
+        'Bump patch version',
         'abc1234',
         updated_content,
         branch: 'my_branch'
@@ -124,7 +117,7 @@ describe Action do
         expect(client).to receive(:update_contents).with(
           repo_full_name,
           'lib/version.rb',
-          'bump major version',
+          'Bump major version',
           'abc1234',
           updated_content,
           branch: 'my_branch'
@@ -132,7 +125,7 @@ describe Action do
         expect(client).to receive(:update_contents).with(
           repo_full_name,
           'package.json',
-          'Bump 1.3.4 to 2.0.0',
+          'Bump major version',
           'abc1234',
           updated_content,
           branch: 'my_branch'
@@ -140,7 +133,7 @@ describe Action do
         expect(client).to receive(:update_contents).with(
           repo_full_name,
           'docs/index.md',
-          'Bump 1.3.4 to 2.0.0',
+          'Bump major version',
           'abc1234',
           updated_content,
           branch: 'my_branch'
