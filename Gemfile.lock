@@ -72,7 +72,7 @@ GEM
       parser (>= 3.2.1.0)
     rubocop-capybara (2.18.0)
       rubocop (~> 1.41)
-    rubocop-factory_bot (2.23.1)
+    rubocop-factory_bot (2.24.0)
       rubocop (~> 1.33)
     rubocop-performance (1.19.0)
       rubocop (>= 1.7.0, < 2.0)
@@ -96,7 +96,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (1.14.0)
+    simplycop (1.14.2)
       rubocop (= 1.56.3)
       rubocop-performance (= 1.19.0)
       rubocop-rails (= 2.21.1)
@@ -117,7 +117,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.12.6)
   semantic
   simplecov (< 0.18)
-  simplycop (= 1.14.0)
+  simplycop (= 1.14.2)
 
 BUNDLED WITH
    2.4.12
