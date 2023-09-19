@@ -44,7 +44,7 @@ class Bump
   def calculate_bumping_data!
     base_branch_content = Content.new(config: @config, ref: @base_branch, path: @version_file_path)
     @version = fetch_version(base_branch_content)
-    @updated_version = fetch_bumped_version(@version, @level)
+    @updated_version = bump_version(@version, @level)
   end
 
   def assign_pr_attributes!(pr_number)
@@ -58,7 +58,7 @@ class Bump
     Semantic::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, ''))
   end
 
-  def fetch_bumped_version(version, level)
+  def bump_version(version, level)
     version.increment!(level.to_sym)
   end
 end
