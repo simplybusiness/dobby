@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Dir["#{File.dirname(__FILE__)}/../lib/*.rb"].sort.each { |f| require_relative f }
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/../lib/*.rb"].each { |f| require_relative f }
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 require 'simplecov'
 SimpleCov.start
