@@ -7,7 +7,6 @@ require_relative 'utils/bump'
 
 # Run action based on the command
 class Action
-
   VALID_SEMVER_LEVELS = ['minor', 'major', 'patch'].freeze
 
   def initialize(config)
