@@ -10,7 +10,7 @@ class Commit
     @repo = payload['repository']['full_name']
     @file = Struct.new(:path, :mode, :type, :sha)
 
-    pull_req = client.pull_request(repo, pr_number)
+    pull_req = @client.pull_request(repo, pr_number)
     @head_branch = pull_req['head']['ref']
   end
 
