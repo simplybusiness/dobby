@@ -13,10 +13,10 @@ class Action
 
   def initialize(config)
     @config = config
+    @client = config.client
     payload = config.payload
     @repo = payload['repository']['full_name']
     @comment_id = payload['comment']['id']
-    @client = config.client
   end
 
   def initiate_version_update(level)
