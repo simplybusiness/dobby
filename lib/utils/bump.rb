@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'content'
+require_relative 'commit'
 
 class Bump
   SEMVER_VERSION =
@@ -20,6 +21,8 @@ class Bump
   end
 
   def bump_everything
+    commit = Commit.new(@config)
+    files = []
     @other_version_file_paths.push(@version_file_path).each do |version_file_path|
       base_branch_content = Content.new(config: @config, ref: @base_branch, path: version_file_path)
       head_branch_content = Content.new(config: @config, ref: @head_branch, path: version_file_path)
@@ -28,15 +31,11 @@ class Bump
       if head_branch_content.content == update_base_branch_content
         puts "::notice title=Nothing to update::The desired version bump is already present for: #{version_file_path}"
       else
-        @client.update_contents(
-          @repo, version_file_path,
-          "Bump #{@level} version",
-          head_branch_content.blob_sha,
-          update_base_branch_content,
-          branch: @head_branch
-        )
+        files.push commit.file.new(
+          path: version_file_path, mode: '100644', type: 'blob', content: update_base_branch_content)
       end
     end
+    commit.multiple_files(files, "Bump #{@level} version")
   end
 
   private
