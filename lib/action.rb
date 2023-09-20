@@ -7,16 +7,12 @@ require_relative 'utils/bump'
 
 # Run action based on the command
 class Action
-  attr_reader :client, :version_file_path, :other_version_file_paths, :repo, :comment_id
 
   VALID_SEMVER_LEVELS = ['minor', 'major', 'patch'].freeze
 
   def initialize(config)
     @config = config
-    @client = config.client
-    @version_file_path = config.version_file_path
     payload = config.payload
-    @other_version_file_paths = config.other_version_file_paths
     @repo = payload['repository']['full_name']
     @comment_id = payload['comment']['id']
   end
@@ -32,6 +28,6 @@ class Action
   end
 
   def add_reaction(reaction)
-    client.create_issue_comment_reaction(repo, comment_id, reaction)
+    client.create_issue_comment_reaction(@repo, @comment_id, reaction)
   end
 end
