@@ -5,6 +5,7 @@ class Commit
 
   def initialize(config)
     @config = config
+    @client = config.client
 
     payload = config.payload
     @repo = payload['repository']['full_name']
