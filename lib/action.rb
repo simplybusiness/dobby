@@ -7,6 +7,8 @@ require_relative 'utils/bump'
 
 # Run action based on the command
 class Action
+  attr_reader :client
+
   VALID_SEMVER_LEVELS = ['minor', 'major', 'patch'].freeze
 
   def initialize(config)
@@ -14,6 +16,7 @@ class Action
     payload = config.payload
     @repo = payload['repository']['full_name']
     @comment_id = payload['comment']['id']
+    @client = config.client
   end
 
   def initiate_version_update(level)
