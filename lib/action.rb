@@ -7,20 +7,16 @@ require_relative 'utils/bump'
 
 # Run action based on the command
 class Action
-  attr_reader :client, :version_file_path, :other_version_file_paths, :repo, :head_branch, :base_branch, :comment_id
+  attr_reader :client
 
   VALID_SEMVER_LEVELS = ['minor', 'major', 'patch'].freeze
 
   def initialize(config)
     @config = config
     @client = config.client
-    @version_file_path = config.version_file_path
     payload = config.payload
-    @other_version_file_paths = config.other_version_file_paths
     @repo = payload['repository']['full_name']
     @comment_id = payload['comment']['id']
-
-    assign_pr_attributes!(payload['issue']['number'])
   end
 
   def initiate_version_update(level)
@@ -34,48 +30,6 @@ class Action
   end
 
   def add_reaction(reaction)
-    client.create_issue_comment_reaction(repo, comment_id, reaction)
-  end
-
-  private
-
-  def check_and_bump_version(level, head_branch_content, updated_content)
-    if head_branch_content.content == updated_content
-      puts '::notice title=Nothing to update::Nothing to update, the desired version bump is already present'
-    else
-      client.update_contents(
-        repo, version_file_path,
-        "bump #{level} version", head_branch_content.blob_sha,
-        updated_content,
-        branch: head_branch
-      )
-    end
-  end
-
-  def bump_other_version_files(base_branch, head_branch, version, updated_version)
-    other_version_file_paths.each do |version_file_path|
-      base_branch_content = Content.new(config: @config, ref: base_branch, path: version_file_path)
-      head_branch_content = Content.new(config: @config, ref: head_branch, path: version_file_path)
-
-      update_base_branch_content = base_branch_content.content.gsub version.to_s, updated_version.to_s
-
-      if head_branch_content.content == update_base_branch_content
-        puts "::notice title=Nothing to update::The desired version bump is already present for: #{version_file_path}"
-      else
-        client.update_contents(
-          repo, version_file_path,
-          "Bump #{version} to #{updated_version}",
-          head_branch_content.blob_sha,
-          update_base_branch_content,
-          branch: head_branch
-        )
-      end
-    end
-  end
-
-  def assign_pr_attributes!(pr_number)
-    pull_req = client.pull_request(repo, pr_number)
-    @head_branch = pull_req['head']['ref']
-    @base_branch = pull_req['base']['ref']
+    client.create_issue_comment_reaction(@repo, @comment_id, reaction)
   end
 end
