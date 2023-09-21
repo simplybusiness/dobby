@@ -16,7 +16,7 @@ class Commit
   end
 
   def multiple_files(files, commit_message)
-    ref = @client.ref(@repo, @head_branch)
+    ref = @client.ref(@repo, "heads/#{@head_branch}")
     current_sha = ref.object.sha
     current_tree = @client.commit(@repo, current_sha).commit.tree.sha
     new_tree = @client.create_tree(@repo, files, :base_tree => current_tree)
