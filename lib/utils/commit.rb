@@ -20,7 +20,6 @@ class Commit
     current_tree = @client.commit(@repo, current_sha).commit.tree.sha
     new_tree = @client.create_tree(@repo, files, :base_tree => current_tree)
     new_commit = @client.create_commit(@repo, commit_message, new_tree.sha, current_sha)
-    puts 'TEMP_KARAN', new_commit.sha
     @client.update_ref(@repo, head_branch_ref, new_commit.sha)
   end
 end
