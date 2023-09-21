@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Commit
-  attr_reader :file
 
   def initialize(config)
     @config = config
@@ -9,7 +8,6 @@ class Commit
 
     payload = config.payload
     @repo = payload['repository']['full_name']
-    @file = Struct.new(:path, :mode, :type, :content)
 
     pull_req = @client.pull_request(@repo, payload['issue']['number'])
     @head_branch = pull_req['head']['ref']
