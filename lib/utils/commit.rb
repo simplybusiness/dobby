@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Commit
-
   def initialize(config)
     @config = config
     @client = config.client
