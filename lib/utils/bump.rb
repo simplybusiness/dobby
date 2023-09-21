@@ -33,7 +33,7 @@ class Bump
       else
         files.push(
           {
-            :path => version_file_path, :mode => '100644', type => 'blob', :content => updated_base_branch_content
+            :path => version_file_path, :mode => '100644', :type => 'blob', :content => updated_base_branch_content
           }
         )
       end
