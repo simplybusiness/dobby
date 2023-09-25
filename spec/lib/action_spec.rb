@@ -39,16 +39,20 @@ describe Action do
     end
 
     it 'bumps major version' do
-      mock_contents_response(client, '1.3.4', 'my_branch')
-      mock_contents_response(client, '1.3.4', 'master')
       updated_content = version_file_content('2.0.0')
-      expect(client).to receive(:update_contents).with(
+      files = [
+        {
+          :path => 'lib/version.rb', :mode => '100644', :type => 'blob', :content => updated_content
+        }
+      ]
+      mock_multiple_files_commit_response(
+        client: client, version: '1.3.4', files: files, commit_message: "Bump major version",
+        head_branch: 'my_branch', base_branch: 'master'
+      )
+      expect(client).to receive(:create_tree).with(
         repo_full_name,
-        'lib/version.rb',
-        'Bump major version',
-        'abc1234',
-        updated_content,
-        branch: 'my_branch'
+        files,
+        base_tree: "current-tree-sha"
       )
       expect(action).to receive(:add_reaction).with('+1')
       action.initiate_version_update('major')
