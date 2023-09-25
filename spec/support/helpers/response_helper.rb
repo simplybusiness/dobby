@@ -6,7 +6,7 @@ module Helpers
       'simplybusiness/test'
     end
 
-    def mock_version_response(client, version, branch, path = 'lib/version.rb', quote = "'")
+    def mock_contents_response(client, version, branch, path = 'lib/version.rb', quote = "'")
       content = {
         'content' => Base64.encode64(
           version_file_content(version, quote)
