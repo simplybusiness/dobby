@@ -23,7 +23,7 @@ describe Content do
   let(:content) { Content.new(config: config, ref: 'master', path: 'lib/version.rb') }
 
   it 'fetch the content for a given file on a branch' do
-    mock_version_response(client, '1.0.0', 'master')
+    mock_contents_response(client, '1.0.0', 'master')
     expect(client).to receive(:contents).with(
       repo_full_name,
       path: 'lib/version.rb',
@@ -34,7 +34,7 @@ describe Content do
   end
 
   it 'fetch the blob_sha for a given file on a branch' do
-    mock_version_response(client, '1.0.0', 'master')
+    mock_contents_response(client, '1.0.0', 'master')
     expect(client).to receive(:contents).with(
       repo_full_name,
       path: 'lib/version.rb',
