@@ -39,8 +39,8 @@ describe Action do
     end
 
     it 'bumps major version' do
-      mock_version_response(client, '1.3.4', 'my_branch')
-      mock_version_response(client, '1.3.4', 'master')
+      mock_contents_response(client, '1.3.4', 'my_branch')
+      mock_contents_response(client, '1.3.4', 'master')
       updated_content = version_file_content('2.0.0')
       expect(client).to receive(:update_contents).with(
         repo_full_name,
@@ -55,8 +55,8 @@ describe Action do
     end
 
     it 'bumps minor version' do
-      mock_version_response(client, '1.3.4', 'my_branch')
-      mock_version_response(client, '1.3.4', 'master')
+      mock_contents_response(client, '1.3.4', 'my_branch')
+      mock_contents_response(client, '1.3.4', 'master')
       updated_content = version_file_content('1.4.0')
       expect(client).to receive(:update_contents).with(
         repo_full_name,
@@ -71,8 +71,8 @@ describe Action do
     end
 
     it 'bumps patch version' do
-      mock_version_response(client, '1.3.4', 'my_branch')
-      mock_version_response(client, '1.3.4', 'master')
+      mock_contents_response(client, '1.3.4', 'my_branch')
+      mock_contents_response(client, '1.3.4', 'master')
       updated_content = version_file_content('1.3.5')
       expect(client).to receive(:update_contents).with(
         repo_full_name,
@@ -87,8 +87,8 @@ describe Action do
     end
 
     it 'maintains double quotes' do
-      mock_version_response(client, '1.3.4', 'my_branch', 'lib/version.rb', '"')
-      mock_version_response(client, '1.3.4', 'master', 'lib/version.rb', '"')
+      mock_contents_response(client, '1.3.4', 'my_branch', 'lib/version.rb', '"')
+      mock_contents_response(client, '1.3.4', 'master', 'lib/version.rb', '"')
       updated_content = version_file_content('1.3.5', '"')
       expect(client).to receive(:update_contents).with(
         repo_full_name,
@@ -106,12 +106,12 @@ describe Action do
       let(:other_version_file_paths) { ['package.json', 'docs/index.md'] }
 
       it 'bumps every file specified' do
-        mock_version_response(client, '1.3.4', 'my_branch')
-        mock_version_response(client, '1.3.4', 'master')
-        mock_version_response(client, '1.3.4', 'my_branch', 'package.json')
-        mock_version_response(client, '1.3.4', 'master', 'package.json')
-        mock_version_response(client, '1.3.4', 'my_branch', 'docs/index.md')
-        mock_version_response(client, '1.3.4', 'master', 'docs/index.md')
+        mock_contents_response(client, '1.3.4', 'my_branch')
+        mock_contents_response(client, '1.3.4', 'master')
+        mock_contents_response(client, '1.3.4', 'my_branch', 'package.json')
+        mock_contents_response(client, '1.3.4', 'master', 'package.json')
+        mock_contents_response(client, '1.3.4', 'my_branch', 'docs/index.md')
+        mock_contents_response(client, '1.3.4', 'master', 'docs/index.md')
         updated_content = version_file_content('2.0.0')
         expect(client).to receive(:update_contents).with(
           repo_full_name,
