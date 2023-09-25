@@ -15,10 +15,10 @@ class Commit
   def multiple_files(files, commit_message)
     head_branch_ref = "heads/#{@head_branch}"
     ref = @client.ref(@repo, head_branch_ref)
-    current_sha = ref.object.sha
-    current_tree = @client.commit(@repo, current_sha).commit.tree.sha
+    current_sha = ref['object']['sha']
+    current_tree = @client.commit(@repo, current_sha)['commit']['tree']['sha']
     new_tree = @client.create_tree(@repo, files, :base_tree => current_tree)
-    new_commit = @client.create_commit(@repo, commit_message, new_tree.sha, current_sha)
-    @client.update_ref(@repo, head_branch_ref, new_commit.sha)
+    new_commit = @client.create_commit(@repo, commit_message, new_tree['sha'], current_sha)
+    @client.update_ref(@repo, head_branch_ref, new_commit['sha'])
   end
 end
