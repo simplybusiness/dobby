@@ -14,7 +14,7 @@ class Config
   def initialize
     @payload = JSON.parse(File.read(ENV.fetch('GITHUB_EVENT_PATH')))
     @event_name = ENV.fetch('GITHUB_EVENT_NAME')
-    @version_file_path = ENV.fetch('VERSION_FILE_PATH')
+    @version_file_path = ENV.fetch('VERSION_FILE_PATH').sub('./', '')
     @other_version_file_paths = ENV.fetch('OTHER_VERSION_FILE_PATHS', "").split(",")
     @client = Octokit::Client.new(access_token: access_token)
   end
