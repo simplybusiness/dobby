@@ -96,7 +96,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (1.14.5)
+    simplycop (1.14.7)
       rubocop (= 1.56.3)
       rubocop-performance (= 1.19.1)
       rubocop-rails (= 2.21.1)
@@ -117,7 +117,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.12.6)
   semantic
   simplecov (< 0.18)
-  simplycop (= 1.14.5)
+  simplycop (= 1.14.7)
 
 BUNDLED WITH
    2.4.12
