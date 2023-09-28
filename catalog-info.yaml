@@ -2,6 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: dobby
+  title: Dobby
   description: GitHub Action that updates the gem version by user input.
 spec:
   type: github action
