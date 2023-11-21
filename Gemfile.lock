@@ -87,10 +87,11 @@ GEM
     rubocop-performance (1.19.1)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.22.1)
+    rubocop-rails (2.22.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
+      rubocop-ast (>= 1.30.0, < 2.0)
     rubocop-rspec (2.25.0)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
@@ -106,10 +107,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (1.14.14)
+    simplycop (1.14.15)
       rubocop (= 1.57.2)
       rubocop-performance (= 1.19.1)
-      rubocop-rails (= 2.22.1)
+      rubocop-rails (= 2.22.2)
       rubocop-rspec (= 2.25.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -127,7 +128,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.12.6)
   semantic
   simplecov (< 0.18)
-  simplycop (= 1.14.14)
+  simplycop (= 1.14.15)
 
 BUNDLED WITH
    2.4.12
