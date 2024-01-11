@@ -42,7 +42,7 @@ GEM
       faraday (>= 1, < 3)
       sawyer (~> 0.9)
     parallel (1.24.0)
-    parser (3.2.2.4)
+    parser (3.3.0.2)
       ast (~> 2.4.1)
       racc
     pry (0.14.2)
@@ -52,7 +52,7 @@ GEM
     racc (1.7.3)
     rack (3.0.8)
     rainbow (3.1.1)
-    regexp_parser (2.8.3)
+    regexp_parser (2.9.0)
     rexml (3.2.6)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
@@ -82,8 +82,8 @@ GEM
       parser (>= 3.2.1.0)
     rubocop-capybara (2.20.0)
       rubocop (~> 1.41)
-    rubocop-factory_bot (2.24.0)
-      rubocop (~> 1.33)
+    rubocop-factory_bot (2.25.1)
+      rubocop (~> 1.41)
     rubocop-performance (1.19.1)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
@@ -107,7 +107,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (1.14.16)
+    simplycop (1.14.17)
       rubocop (= 1.57.2)
       rubocop-performance (= 1.19.1)
       rubocop-rails (= 2.22.2)
@@ -128,7 +128,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.12.6)
   semantic
   simplecov (< 0.18)
-  simplycop (= 1.14.16)
+  simplycop (= 1.14.17)
 
 BUNDLED WITH
    2.4.12
