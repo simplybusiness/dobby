@@ -11,8 +11,8 @@ class Command
   def initialize(config)
     @config = config
     comment = config.payload['comment']['body'].strip.downcase
-    error_msg = "Comment must be start with #{COMMAND_PREFIX}"
-    puts "::error title=Arguement Error::#{error_msg}"
+    error_msg = "Comment must start with #{COMMAND_PREFIX}"
+    puts "::error title=Argument Error::#{error_msg}"
     raise ArgumentError, error_msg unless comment.start_with?(COMMAND_PREFIX)
 
     cmd = comment.delete_prefix(COMMAND_PREFIX)
