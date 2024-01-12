@@ -4,9 +4,10 @@ require_relative 'content'
 require_relative 'commit'
 
 class Bump
-  SEMVER_VERSION =
-    /["'](0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']/ # rubocop:disable Layout/LineLength
-  GEMSPEC_VERSION = Regexp.new(/\.version\s*=\s*/.to_s + SEMVER_VERSION.to_s).freeze
+  SEMVER = /["']*(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']*/
+  SEPARATOR = /\s*[:=]\s*/
+  VERSION_KEY = /version/
+  VERSION_SETTING = Regexp.new(VERSION_KEY.source + SEPARATOR.source + SEMVER.source, Regexp::IGNORECASE).freeze
 
   def initialize(config, level)
     @config = config
@@ -56,8 +57,8 @@ class Bump
   end
 
   def fetch_version(content)
-    version = content.content.match(GEMSPEC_VERSION) || content.content.match(SEMVER_VERSION)
-    Semantic::Version.new(version[0].split('=').last.gsub(/\s/, '').gsub(/'|"/, ''))
+    version = content.content.match(VERSION_SETTING)
+    Semantic::Version.new(version[0].split(SEPARATOR).last.gsub(/\s/, '').gsub(/'|"/, ''))
   end
 
   def bump_version(version, level)
