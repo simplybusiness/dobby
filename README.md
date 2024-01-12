@@ -2,8 +2,9 @@
 
 “Dobby is free.”
 
-A Github action which provides chat-ops functionality. You can comment on Pull request to perform various operations.
-Currently it supports bumping version for a gem.
+A Github action which provides chat-ops functionality. You can comment on a pull request to perform various operations.
+Currently it supports bumping version files in Ruby, Python and Javascript. The version file (see below) must specify the version
+as a key-value pair separated by either ":" or "=", e.g. `VERSION: '1.2.3'` or `version = 1.2.3` 
 
 ## Bump version
 
@@ -14,8 +15,8 @@ Dobby requires a Github App to be installed either on an individual repository o
    - Set GitHub App name. 
    - Set Homepage URL to your github repository.
    - Uncheck Active under Webhook. You do not need to enter a Webhook URL.
-   - Under Repository permissions: Contents select Access: Read & write.
-   - Under Repository permissions: Pull requests select Access: Read & write. 
+   - Under Permissions & Events > Repository permissions > Contents select Access: Read & write.
+   - Under Permissions & Events > Repository permissions > Pull requests select Access: Read & write. 
 
 2. Create a Private key from the App settings page and store it securely.
 
