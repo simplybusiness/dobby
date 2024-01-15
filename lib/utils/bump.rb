@@ -9,7 +9,6 @@ class Bump
   VERSION_KEY = /(?:^|\.|\s|"|')(?:base|version)["']*/
   VERSION_SETTING = Regexp.new(VERSION_KEY.source + SEPARATOR.source + SEMVER.source, Regexp::IGNORECASE).freeze
 
-
   def initialize(config, level)
     @config = config
     @level = level
