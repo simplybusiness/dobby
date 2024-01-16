@@ -8,7 +8,7 @@ RSpec.describe Bump do
   let(:version_file_path) { 'path/to/version/file' }
   let(:other_version_file_paths) { ['path/to/other/version/file'] }
   let(:base_content) { double('content') }
-  let(:head_content) { double('content')}
+  let(:head_content) { double('content') }
   let(:commit) { double('commit') }
 
   before do
@@ -24,7 +24,7 @@ RSpec.describe Bump do
       config: config, ref: 'head_branch',
       path: anything
     ).and_return(head_content)
-    
+
     allow(client).to receive(:pull_request).with(
       'owner/repo',
       123
@@ -32,8 +32,8 @@ RSpec.describe Bump do
                    'head' => { 'ref' => 'head_branch' },
                    'base' => { 'ref' => 'base_branch' }
                  })
-    
-                 allow(Commit).to receive(:new).with(config).and_return(commit)
+
+    allow(Commit).to receive(:new).with(config).and_return(commit)
     allow(commit).to receive(:multiple_files)
   end
 
@@ -47,7 +47,7 @@ RSpec.describe Bump do
         [
           { path: other_version_file_paths[0], mode: '100644', type: 'blob', content: 'version: 1.0.1' },
           { path: version_file_path, mode: '100644', type: 'blob', content: 'version: 1.0.1' }
-        ], 
+        ],
         'Bump patch version'
       )
       bump.bump_everything
