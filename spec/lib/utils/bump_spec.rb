@@ -58,10 +58,7 @@ RSpec.describe Bump do
       allow(base_content).to receive(:content).and_return('version: 1.0.0')
 
       bump = Bump.new(config, 'patch')
-      expect(commit).to receive(:multiple_files).with(
-        [], 
-        'Bump patch version'
-      )
+      expect(commit).not_to receive(:multiple_files)
       expect do
         bump.bump_everything
       end.to output(

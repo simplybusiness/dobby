@@ -39,7 +39,7 @@ class Bump
         )
       end
     end
-    commit.multiple_files(files, "Bump #{@level} version")
+    commit.multiple_files(files, "Bump #{@level} version") if files.any?
   end
 
   private
