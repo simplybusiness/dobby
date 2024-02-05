@@ -11,5 +11,4 @@ spec:
     - github-actions
   consumesAPI:
     - github-rest-api
-  system:
-    - github
+  system: github
