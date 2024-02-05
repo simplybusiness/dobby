@@ -7,3 +7,9 @@ metadata:
 spec:
   type: github action
   lifecycle: production
+  dependsOn:
+    - github-actions
+  consumesAPI:
+    - github-rest-api
+  system:
+    - github
