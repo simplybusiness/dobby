@@ -68,5 +68,23 @@ RSpec.describe Bump do
         "#{version_file_path}\n"
       ).to_stdout
     end
+
+    it 'retains modified version file content' do
+      allow(head_content).to receive(:content).and_return('version: 1.0.0 extra stuff here')
+      allow(base_content).to receive(:content).and_return('version: 1.0.0')
+
+      bump = Bump.new(config, 'patch')
+      expect(commit).to receive(:multiple_files).with(
+        [
+          {
+            path: other_version_file_paths[0], mode: '100644', type: 'blob',
+            content: 'version: 1.0.1 extra stuff here'
+          },
+          { path: version_file_path, mode: '100644', type: 'blob', content: 'version: 1.0.1 extra stuff here' }
+        ],
+        'Bump patch version'
+      )
+      bump.bump_everything
+    end
   end
 end

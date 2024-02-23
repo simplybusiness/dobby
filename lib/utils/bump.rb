@@ -25,9 +25,8 @@ class Bump
     commit = Commit.new(@config)
     files = []
     @other_version_file_paths.push(@version_file_path).each do |version_file_path|
-      base_branch_content = Content.new(config: @config, ref: @base_branch, path: version_file_path)
       head_branch_content = Content.new(config: @config, ref: @head_branch, path: version_file_path)
-      updated_base_branch_content = base_branch_content.content.gsub @version.to_s, @updated_version.to_s
+      updated_base_branch_content = head_branch_content.content.gsub @version.to_s, @updated_version.to_s
 
       if head_branch_content.content == updated_base_branch_content
         puts "::notice title=Nothing to update::The desired version bump is already present for: #{version_file_path}"
