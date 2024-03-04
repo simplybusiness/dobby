@@ -2,3 +2,5 @@
 
 # Coverage directory used by simplycov
 coverage
+
+.idea
