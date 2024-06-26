@@ -8,15 +8,18 @@ class Command
 
   COMMAND_PREFIX = '/dobby'
 
+  # Improved version of the initialize method in command.rb
   def initialize(config)
     @config = config
     comment = config.payload['comment']['body'].strip.downcase
-    error_msg = "Comment must start with #{COMMAND_PREFIX}"
-    puts "::error title=Argument Error::#{error_msg}"
-    raise ArgumentError, error_msg unless comment.start_with?(COMMAND_PREFIX)
+    unless comment.start_with?(COMMAND_PREFIX)
+      error_msg = "Comment must start with #{COMMAND_PREFIX}"
+      puts "::error title=Argument Error::#{error_msg}"
+      raise ArgumentError, error_msg
+    end
 
-    cmd = comment.delete_prefix(COMMAND_PREFIX)
-    @command, @options = cmd.split
+    cmd = comment.delete_prefix(COMMAND_PREFIX).strip
+    @command, @options = cmd.split(/\s+/, 2)
   end
 
   def call
