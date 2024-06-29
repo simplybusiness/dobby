@@ -49,6 +49,28 @@ describe Command do
       end
     end
 
+    context 'when extra text is added to the command' do
+      let(:body) { '/dobby version minor please' }
+
+      it 'bumps the version when people are polite' do
+        action = double
+        allow(Action).to receive(:new).and_return(action)
+        expect(action).to receive(:initiate_version_update).with('minor')
+        Command.new(config).call
+      end
+    end
+
+    context 'when someone goes posts a long message about bumping the version' do
+      let(:body) { '/dobby version minor please, I really need this' }
+
+      it 'bumps the version' do
+        action = double
+        allow(Action).to receive(:new).and_return(action)
+        expect(action).to receive(:initiate_version_update).with('minor')
+        Command.new(config).call
+      end
+    end
+
     context 'when invalid command' do
       let(:body) { '/dobby barney laugh' }
 

@@ -8,7 +8,6 @@ class Command
 
   COMMAND_PREFIX = '/dobby'
 
-  # Improved version of the initialize method in command.rb
   def initialize(config)
     @config = config
     comment = config.payload['comment']['body'].strip.downcase
@@ -19,7 +18,8 @@ class Command
     end
 
     cmd = comment.delete_prefix(COMMAND_PREFIX).strip
-    @command, @options = cmd.split(/\s+/, 2)
+    @command, @options, @extra = cmd.split(/\s+/, 3)
+    puts "::debug::Command: #{@command}, Options: #{@options}, Extra: #{@extra}"
   end
 
   def call
