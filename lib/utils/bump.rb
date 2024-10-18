@@ -48,8 +48,8 @@ class Bump
   private
 
   def calculate_bumping_data!
-    head_branch_content = Content.new(config: @config, ref: @head_branch, path: @version_file_path)
-    @version = fetch_version(head_branch_content)
+    base_branch_content = Content.new(config: @config, ref: @base_branch, path: @version_file_path)
+    @version = fetch_version(base_branch_content)
     @updated_version = bump_version(@version, @level)
   end
 
