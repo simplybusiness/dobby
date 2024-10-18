@@ -24,21 +24,25 @@ class Bump
   def bump_everything
     commit = Commit.new(@config)
     files = []
+    files_messages = {}
     @other_version_file_paths.push(@version_file_path).each do |version_file_path|
       head_branch_content = Content.new(config: @config, ref: @head_branch, path: version_file_path)
       updated_base_branch_content = head_branch_content.content.gsub @version.to_s, @updated_version.to_s
 
       if head_branch_content.content == updated_base_branch_content
         puts "::notice title=Nothing to update::The desired version bump is already present for: #{version_file_path}"
+        files_messages[version_file_path] = 'Nothing to update as the desired version bump is already present'
       else
         files.push(
           {
             :path => version_file_path, :mode => '100644', :type => 'blob', :content => updated_base_branch_content
           }
         )
+        files_messages[version_file_path] = "Bump #{@level} version from #{@version} to #{@updated_version}"
       end
     end
     commit.multiple_files(files, "Bump #{@level} version") if files.any?
+    generate_message(files_messages)
   end
 
   private
@@ -62,5 +66,16 @@ class Bump
 
   def bump_version(version, level)
     version.increment!(level.to_sym)
+  end
+
+  def generate_message(files_messages)
+    message = "### Bump version from #{@version} to #{@updated_version}\n"
+    message += "| File Name | Message |\n"
+    message += "|-----------|---------|\n"
+    files_messages.each do |file_name, msg|
+      message += "| #{file_name} | #{msg} |\n"
+    end
+    message += "|-----------|---------|\n"
+    message
   end
 end
