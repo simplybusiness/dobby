@@ -36,7 +36,7 @@ describe Action do
     it 'reacts with confused emoji for invalid semver' do
       expect(action).to receive(:add_reaction).with('confused')
       message = action.initiate_version_update('invalid_semver')
-      expect(message).to eq("## :boom: Error:boom: \n\nThe semver level invalid_semver is not valid so failing the action.  Expecting a semver level of minor, major, patch")
+      expect(message).to eq("### :boom: Error:boom: \n\nThe semver level invalid_semver is not valid so failing the action.  Expecting a semver level of minor, major, patch")
     end
 
     it 'bumps major version' do

@@ -10,12 +10,12 @@ class Command
 
   def initialize(config)
     @config = config
-    @message = "### Dobby bumping the version\n"
+    @message = "## Dobby bumping the version\n"
     comment = config.payload['comment']['body'].strip.downcase
     unless comment.start_with?(COMMAND_PREFIX)
       error_msg = "Comment must start with #{COMMAND_PREFIX}"
       puts "::error title=Argument Error::#{error_msg}"
-      @message += "## :boom: Error:boom:\n\n The comment must start with #{COMMAND_PREFIX} so failing the action."
+      @message += "### :boom: Error:boom:\n\n The comment must start with #{COMMAND_PREFIX} so failing the action."
       raise ArgumentError, error_msg
     end
 
@@ -30,7 +30,7 @@ class Command
     when 'version'
       @message += action.initiate_version_update(options).to_s
     else
-      @message += "## :boom: Error:boom:\n\nThe command #{command} is not valid so failing the action.  Expecting a command of 'version'."
+      @message += "### :boom: Error:boom:\n\nThe command #{command} is not valid so failing the action.  Expecting a command of 'version'."
       puts "::error title=Unknown command::The command #{command} is not valid"
       action.add_reaction('confused')
     end
