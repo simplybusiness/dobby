@@ -70,12 +70,12 @@ class Bump
 
   def generate_message(files_messages)
     message = "### Bump version from #{@version} to #{@updated_version}\n"
+    message += "Dobby has attempted to update the following files\n"
     message += "| File Name | Message |\n"
     message += "|-----------|---------|\n"
     files_messages.each do |file_name, msg|
       message += "| #{file_name} | #{msg} |\n"
     end
-    message += "|-----------|---------|\n"
     message
   end
 end
