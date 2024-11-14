@@ -37,6 +37,18 @@ RSpec.describe Bump do
     allow(commit).to receive(:multiple_files)
   end
 
+  describe 'VERSION_SETTING' do
+    it 'matches a lowercase, colon separated semver' do
+      version = 'version: 1.0.0'
+      expect(version.match(Bump::VERSION_SETTING)[0]).to eq(version)
+    end
+
+    it 'matches a lowercase, underscored, quote-marked, equal separated semver' do
+      version = '__version__ = "1.0.0"'
+      expect(version.match(Bump::VERSION_SETTING)[0]).to eq(version)
+    end
+  end
+
   describe '#bump_everything' do
     it 'bumps the version and commits the changes' do
       allow(head_content).to receive(:content).and_return('version: 1.0.0')
@@ -89,7 +101,7 @@ RSpec.describe Bump do
 
     it 'handles python underscored version format' do
       allow(head_content).to receive(:content).and_return('__version__ = "1.0.0"')
-      allow(base_content).to receive(:content).and_return('__version__ = "1.0.0"') 
+      allow(base_content).to receive(:content).and_return('__version__ = "1.0.0"')
 
       bump = Bump.new(config, 'patch')
       expect(commit).to receive(:multiple_files).with(
