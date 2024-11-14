@@ -86,5 +86,23 @@ RSpec.describe Bump do
       )
       bump.bump_everything
     end
+
+    it 'handles python underscored version format' do
+      allow(head_content).to receive(:content).and_return('__version__ = "1.0.0"')
+      allow(base_content).to receive(:content).and_return('__version__ = "1.0.0"') 
+
+      bump = Bump.new(config, 'patch')
+      expect(commit).to receive(:multiple_files).with(
+        [
+          {
+            path: other_version_file_paths[0], mode: '100644', type: 'blob',
+            content: '__version__ = "1.0.1"'
+          },
+          { path: version_file_path, mode: '100644', type: 'blob', content: '__version__ = "1.0.1"' }
+        ],
+        'Bump patch version'
+      )
+      bump.bump_everything
+    end
   end
 end
