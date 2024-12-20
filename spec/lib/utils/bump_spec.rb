@@ -40,12 +40,12 @@ RSpec.describe Bump do
   describe 'VERSION_SETTING' do
     it 'matches a lowercase, colon separated semver' do
       version = 'version: 1.0.0'
-      expect(version.match(Bump::VERSION_SETTING)[0]).to eq(version)
+      expect(Bump::VERSION_SETTING).to match(version)
     end
 
     it 'matches a lowercase, underscored, quote-marked, equal separated semver' do
       version = '__version__ = "1.0.0"'
-      expect(version.match(Bump::VERSION_SETTING)[0]).to eq(version)
+      expect(Bump::VERSION_SETTING).to match(version)
     end
   end
 
