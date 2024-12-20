@@ -47,6 +47,11 @@ RSpec.describe Bump do
       version = '__version__ = "1.0.0"'
       expect(Bump::VERSION_SETTING).to match(version)
     end
+
+    it 'does not match unrelated semvers' do
+      version = 'expected_ruby_version = "3.3.0"'
+      expect(Bump::VERSION_SETTING).not_to match(version)
+    end
   end
 
   describe '#bump_everything' do
