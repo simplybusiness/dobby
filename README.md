@@ -34,7 +34,7 @@ on:
     types: [created]
 jobs:
   pr_commented:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: startsWith(github.event.comment.body, '/dobby')
     env:
       BUNDLE_WITHOUT: "development:test"
