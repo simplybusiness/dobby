@@ -17,7 +17,8 @@ describe Action do
         'comment' => {
           'id' => 123
         }
-      }, other_version_file_paths: other_version_file_paths
+      }, other_version_file_paths: other_version_file_paths,
+      require_pr_approval: require_pr_approval
     )
     test_config
   end
@@ -33,6 +34,62 @@ describe Action do
   end
 
   describe '#initiate_version_update' do
+    context 'when PR approval is required' do
+      let(:require_pr_approval) { true }
+
+      it 'reacts with confused emoji and returns error message if PR is not approved' do
+        allow(action).to receive(:pr_approved?).and_return(false)
+        expect(action).to receive(:add_reaction).with('confused')
+        message = action.initiate_version_update('minor')
+        expect(message).to eq("### :boom: Error:boom: \n\nThe PR has not been approved so failing the action.")
+      end
+
+      it 'bumps minor version if PR is approved' do
+        allow(action).to receive(:pr_approved?).and_return(true)
+        updated_content = version_file_content('1.4.0')
+        files = [
+          {
+            :path => 'lib/version.rb', :mode => '100644', :type => 'blob', :content => updated_content
+          }
+        ]
+        mock_multiple_files_commit_response(
+          client: client, version: '1.3.4', files: files, commit_message: "Bump minor version",
+          head_branch: 'my_branch', base_branch: 'master'
+        )
+        expect(client).to receive(:create_tree).with(
+          repo_full_name,
+          files,
+          base_tree: "current-tree-sha"
+        )
+        expect(action).to receive(:add_reaction).with('+1')
+        action.initiate_version_update('minor')
+      end
+    end
+
+    context 'when PR approval is not required' do
+      let(:require_pr_approval) { false }
+
+      it 'bumps minor version' do
+        updated_content = version_file_content('1.4.0')
+        files = [
+          {
+            :path => 'lib/version.rb', :mode => '100644', :type => 'blob', :content => updated_content
+          }
+        ]
+        mock_multiple_files_commit_response(
+          client: client, version: '1.3.4', files: files, commit_message: "Bump minor version",
+          head_branch: 'my_branch', base_branch: 'master'
+        )
+        expect(client).to receive(:create_tree).with(
+          repo_full_name,
+          files,
+          base_tree: "current-tree-sha"
+        )
+        expect(action).to receive(:add_reaction).with('+1')
+        action.initiate_version_update('minor')
+      end
+    end
+
     it 'reacts with confused emoji for invalid semver' do
       expect(action).to receive(:add_reaction).with('confused')
       message = action.initiate_version_update('invalid_semver')
@@ -57,26 +114,6 @@ describe Action do
       )
       expect(action).to receive(:add_reaction).with('+1')
       action.initiate_version_update('major')
-    end
-
-    it 'bumps minor version' do
-      updated_content = version_file_content('1.4.0')
-      files = [
-        {
-          :path => 'lib/version.rb', :mode => '100644', :type => 'blob', :content => updated_content
-        }
-      ]
-      mock_multiple_files_commit_response(
-        client: client, version: '1.3.4', files: files, commit_message: "Bump minor version",
-        head_branch: 'my_branch', base_branch: 'master'
-      )
-      expect(client).to receive(:create_tree).with(
-        repo_full_name,
-        files,
-        base_tree: "current-tree-sha"
-      )
-      expect(action).to receive(:add_reaction).with('+1')
-      action.initiate_version_update('minor')
     end
 
     it 'bumps patch version' do
@@ -147,6 +184,26 @@ describe Action do
         expect(action).to receive(:add_reaction).with('+1')
         action.initiate_version_update('major')
       end
+    end
+  end
+
+  describe '#pr_approved?' do
+    it 'returns true if PR is approved' do
+      reviews = [
+        { 'state' => 'APPROVED' },
+        { 'state' => 'CHANGES_REQUESTED' }
+      ]
+      allow(client).to receive(:pull_request_reviews).and_return(reviews)
+      expect(action.pr_approved?).to be true
+    end
+
+    it 'returns false if PR is not approved' do
+      reviews = [
+        { 'state' => 'CHANGES_REQUESTED' },
+        { 'state' => 'COMMENTED' }
+      ]
+      allow(client).to receive(:pull_request_reviews).and_return(reviews)
+      expect(action.pr_approved?).to be false
     end
   end
 
