@@ -59,6 +59,8 @@ jobs:
           # OPTIONAL: Comma separated values for any other files that lock
           # their version to the same version in VERSION_FILE_PATH
           OTHER_VERSION_FILE_PATHS: 'package.json,package-lock.json,yarn.lock'
+          # OPTIONAL: Set to 'true' to require PR approval before bumping the version
+          REQUIRE_PR_APPROVAL: 'true'
 ```
 
 **NOTE:** Workflow will only work once it merged to default (usually master) branch. It is because event `issue_comment` only work on default branch. See [discussion](https://github.community/t/on-issue-comment-events-are-not-triggering-workflows/16784/4) for more detail.
