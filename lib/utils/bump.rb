@@ -22,6 +22,11 @@ class Bump
   end
 
   def bump_everything
+    if @config.require_pr_approval && !pr_approved?
+      puts "::error title=PR not approved::The PR has not been approved"
+      return "### :boom: Error:boom: \n\nThe PR has not been approved so failing the action."
+    end
+
     commit = Commit.new(@config)
     files = []
     files_messages = {}
@@ -77,5 +82,10 @@ class Bump
       message += "| #{file_name} | #{msg} |\n"
     end
     message
+  end
+
+  def pr_approved?
+    reviews = @client.pull_request_reviews(@repo, @config.payload['issue']['number'])
+    reviews.any? { |review| review['state'] == 'APPROVED' }
   end
 end
