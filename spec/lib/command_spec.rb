@@ -11,6 +11,7 @@ describe Command do
         }
       }
     )
+    allow(test_config).to receive(:require_pr_approval).and_return(require_pr_approval)
     test_config
   end
 
@@ -80,6 +81,36 @@ describe Command do
 
         expect(action).to receive(:add_reaction).with('confused')
         expect(action).to_not receive(:initiate_version_update).with('minor')
+        Command.new(config).call
+      end
+    end
+  end
+
+  describe 'PR approval' do
+    let(:body) { '/dobby version minor' }
+
+    context 'when PR approval is required' do
+      let(:require_pr_approval) { true }
+
+      it 'checks for PR approval' do
+        action = double
+        allow(Action).to receive(:new).and_return(action)
+
+        expect(action).to receive(:initiate_version_update).with('minor')
+        expect(action).to receive(:pr_approved?)
+        Command.new(config).call
+      end
+    end
+
+    context 'when PR approval is not required' do
+      let(:require_pr_approval) { false }
+
+      it 'does not check for PR approval' do
+        action = double
+        allow(Action).to receive(:new).and_return(action)
+
+        expect(action).to receive(:initiate_version_update).with('minor')
+        expect(action).not_to receive(:pr_approved?)
         Command.new(config).call
       end
     end
