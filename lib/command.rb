@@ -30,7 +30,9 @@ class Command
     when 'version'
       @message += action.initiate_version_update(options).to_s
     else
-      @message += "### :boom: Error:boom:\n\nThe command #{command} is not valid so failing the action.  Expecting a command of 'version'."
+      @message += "### :boom: Error:boom:\n\n" \
+                  "The command #{command} is not valid so failing the action. " \
+                  "Expecting a command of 'version'."
       puts "::error title=Unknown command::The command #{command} is not valid"
       action.add_reaction('confused')
     end

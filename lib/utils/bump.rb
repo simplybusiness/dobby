@@ -4,10 +4,44 @@ require_relative 'content'
 require_relative 'commit'
 
 class Bump
-  SEMVER = /["']*(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?["']*/
-  SEPARATOR = /\s*[:=]\s*/
-  VERSION_KEY = /(?:^_+|^|\.|\s|"|')(?:base|version)(?:["']*|_+)/
-  VERSION_SETTING = Regexp.new(VERSION_KEY.source + SEPARATOR.source + SEMVER.source, Regexp::IGNORECASE).freeze
+  SEMVER = /
+    ["']?                # Optional quotes
+    (0|[1-9]\d*)         # Major version
+    \.                   # Dot separator
+    (0|[1-9]\d*)         # Minor version
+    \.                   # Dot separator
+    (0|[1-9]\d*)         # Patch version
+    (?:-                 # Optional pre-release
+      (
+        (?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*) # Pre-release identifier
+        (?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))* # Additional identifiers
+      )
+    )?
+    (?:\+                # Optional build metadata
+      (
+        [0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)* # Build metadata identifiers
+      )
+    )?
+    ["']?                # Optional quotes
+  /x
+
+  SEPARATOR = /
+    \s*                  # Optional whitespace
+    [:=]                 # Separator (colon or equals)
+    \s*                  # Optional whitespace
+  /x
+
+  VERSION_KEY = /
+    (?:^_+|^|\.|\s|"|')  # Optional prefix
+    (?:base|version)     # Key name
+    (?:["']*|_+)         # Optional suffix
+  /x
+
+  VERSION_SETTING = /
+    #{VERSION_KEY.source} # Match version key
+    #{SEPARATOR.source}   # Match separator
+    #{SEMVER.source}      # Match semantic version
+  /ix
 
   def initialize(config, level)
     @config = config
