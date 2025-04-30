@@ -1,15 +1,19 @@
 require 'spec_helper'
 require 'utils/bump'
+require 'utils/content'
+require 'utils/commit'
+require 'config'
+require 'octokit'
 
 RSpec.describe Bump do
-  let(:config) { double('config') }
+  let(:config) { instance_double(Config) }
   let(:payload) { { 'repository' => { 'full_name' => 'owner/repo' }, 'issue' => { 'number' => 123 } } }
-  let(:client) { double('client') }
+  let(:client) { instance_double(Octokit::Client) }
   let(:version_file_path) { 'path/to/version/file' }
   let(:other_version_file_paths) { ['path/to/other/version/file'] }
-  let(:base_content) { double('content') }
-  let(:head_content) { double('content') }
-  let(:commit) { double('commit') }
+  let(:base_content) { instance_double(Content) }
+  let(:head_content) { instance_double(Content) }
+  let(:commit) { instance_double(Commit) }
 
   before do
     allow(config).to receive_messages(
