@@ -83,5 +83,13 @@ describe Command do
         Command.new(config).call
       end
     end
+
+    context 'when non-dobby command' do
+      let(:body) { '/bobby version patch' }
+
+      it 'raises error' do
+        expect { Command.new(config).call }.to raise_error(ArgumentError)
+      end
+    end
   end
 end
