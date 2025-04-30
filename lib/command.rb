@@ -12,12 +12,7 @@ class Command
     @config = config
     @message = "## Dobby bumping the version\n"
     comment = config.payload['comment']['body'].strip.downcase
-    unless comment.start_with?(COMMAND_PREFIX)
-      error_msg = "Comment must start with #{COMMAND_PREFIX}"
-      puts "::error title=Argument Error::#{error_msg}"
-      @message += "### :boom: Error:boom:\n\n The comment must start with #{COMMAND_PREFIX} so failing the action."
-      raise ArgumentError, error_msg
-    end
+    init_error unless comment.start_with?(COMMAND_PREFIX)
 
     cmd = comment.delete_prefix(COMMAND_PREFIX).strip
     @command, @options, @extra = cmd.split(/\s+/, 3)
@@ -26,18 +21,28 @@ class Command
 
   def call
     action = Action.new(config)
-    case command
-    when 'version'
+    if command == 'version'
       @message += action.initiate_version_update(options).to_s
     else
-      @message += "### :boom: Error:boom:\n\n" \
-                  "The command #{command} is not valid so failing the action. " \
-                  "Expecting a command of 'version'."
+      @message += error_msg
       puts "::error title=Unknown command::The command #{command} is not valid"
       action.add_reaction('confused')
     end
-    File.open(ENV.fetch('GITHUB_STEP_SUMMARY', nil), 'w') do |file|
-      file.puts @message
-    end
+    File.open(ENV.fetch('GITHUB_STEP_SUMMARY', nil), 'w') { |file| file.puts @message }
+  end
+
+  private
+
+  def error_msg
+    "### :boom: Error:boom:\n\n" \
+      "The command #{command} is not valid so failing the action. " \
+      "Expecting a command of 'version'."
+  end
+
+  def init_error
+    error_msg = "Comment must start with #{COMMAND_PREFIX}"
+    puts "::error title=Argument Error::#{error_msg}"
+    @message += "### :boom: Error:boom:\n\n The comment must start with #{COMMAND_PREFIX} so failing the action."
+    raise ArgumentError, error_msg
   end
 end
