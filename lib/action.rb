@@ -26,7 +26,9 @@ class Action
     else
       add_reaction('confused')
       puts "::error title=Unknown semver level::The semver level #{level} is not valid"
-      "### :boom: Error:boom: \n\nThe semver level #{level} is not valid so failing the action.  Expecting a semver level of #{VALID_SEMVER_LEVELS.join(', ')}"
+      "### :boom: Error:boom: \n\n" \
+        "The semver level #{level} is not valid so failing the action. " \
+        "Expecting a semver level of #{VALID_SEMVER_LEVELS.join(', ')}"
     end
   end
 
