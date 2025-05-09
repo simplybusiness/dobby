@@ -5,11 +5,14 @@ require_relative '../spec_helper'
 describe Action do
   let(:client) { instance_double(Octokit::Client) }
   let(:other_version_file_paths) { [] }
+  let(:other_version_patterns) { [] }
 
   let(:config) do
     test_config = double
     allow(test_config).to receive_messages(
-      client: client, version_file_path: 'lib/version.rb', payload: {
+      client: client,
+      version_file_path: 'lib/version.rb',
+      payload: {
         'repository' => { 'full_name' => repo_full_name },
         'issue' => {
           'number' => 1
@@ -17,7 +20,9 @@ describe Action do
         'comment' => {
           'id' => 123
         }
-      }, other_version_file_paths: other_version_file_paths
+      },
+      other_version_file_paths: other_version_file_paths,
+      other_version_patterns: other_version_patterns
     )
     test_config
   end
@@ -149,6 +154,63 @@ describe Action do
           base_tree: "current-tree-sha"
         )
         expect(action).to receive(:add_reaction).with('+1')
+        action.initiate_version_update('major')
+      end
+    end
+
+    context 'when other_version_patterns is configured' do
+      let(:other_version_file_paths) { ['Gemfile.lock'] }
+      let(:other_version_patterns) do
+        [
+          'lib-name (1.2.3)',
+          'lib-name (= 1.2.3)',
+          'sub-lib-name (1.2.3)'
+        ]
+      end
+
+      it "doesn't change irrelevant versions" do
+        allow(action).to receive(:add_reaction)
+
+        files = {
+          'lib/version.rb' => %(
+            module TestRepo
+              VERSION=1.2.3
+            end
+          ),
+          'Gemfile.lock' => %(
+            PATH
+              remote: .
+              specs:
+                lib-name (1.2.3)
+                sub-lib-name (1.2.3)
+                  lib-name (= 1.2.3)
+                something-else (1.2.3)
+          )
+        }
+        updated_files = {
+          'lib/version.rb' => %(
+            module TestRepo
+              VERSION=2.0.0
+            end
+          ),
+          'Gemfile.lock' => %(
+            PATH
+              remote: .
+              specs:
+                lib-name (2.0.0)
+                sub-lib-name (2.0.0)
+                  lib-name (= 2.0.0)
+                something-else (1.2.3)
+          )
+        }
+        expect_file_updates(
+          client,
+          head_branch: 'my_branch',
+          commit_message: 'Bump major version',
+          files: files,
+          updated_files: updated_files
+        )
+
         action.initiate_version_update('major')
       end
     end

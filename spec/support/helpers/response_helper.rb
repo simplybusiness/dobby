@@ -6,6 +6,26 @@ module Helpers
       'simplybusiness/test'
     end
 
+    def expect_file_updates(client, head_branch:, commit_message:, files:, updated_files:)
+      # 'old' file contents
+      allow(client).to receive(:contents) do |_, path:, **_|
+        contents = files.fetch(path)
+        {
+          'content' => Base64.encode64(contents),
+          'sha' => 'abc1234'
+        }
+      end
+
+      mock_commit_responses(client, commit_message)
+      mock_ref_responses(client, head_branch)
+
+      # 'new' file contents
+      updated_tree_files = updated_files.map do |path, contents|
+        { path: path, content: contents, mode: '100644', type: 'blob' }
+      end
+      mock_tree_response(client, updated_tree_files)
+    end
+
     def mock_commit_responses(client, commit_message)
       allow(client).to receive(:commit)
         .with(repo_full_name, "current-ref-sha")
@@ -60,7 +80,7 @@ module Helpers
 
     def mock_tree_response(client, files)
       allow(client).to receive(:create_tree)
-        .with(repo_full_name, files, base_tree: "current-tree-sha")
+        .with(repo_full_name, match_array(files), base_tree: "current-tree-sha")
         .and_return({ 'sha' => "new-tree-sha" })
     end
 

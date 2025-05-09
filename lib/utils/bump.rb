@@ -50,6 +50,7 @@ class Bump
     @client = config.client
     @version_file_path = config.version_file_path
     @other_version_file_paths = config.other_version_file_paths
+    @other_version_patterns = config.other_version_patterns
     @repo = payload['repository']['full_name']
     assign_pr_attributes!(payload['issue']['number'])
     calculate_bumping_data!
@@ -86,7 +87,7 @@ class Bump
 
   def get_content_update(path)
     head_branch_content = Content.new(config: @config, ref: @head_branch, path: path).content
-    updated_base_branch_content = head_branch_content.gsub @version.to_s, @updated_version.to_s
+    updated_base_branch_content = update_file_contents(path, head_branch_content)
 
     if head_branch_content == updated_base_branch_content
       puts "::notice title=Nothing to update::The desired version bump is already present for: #{path}"
@@ -94,6 +95,19 @@ class Bump
     end
 
     { :path => path, :mode => '100644', :type => 'blob', :content => updated_base_branch_content }
+  end
+
+  def update_file_contents(path, contents)
+    if path != @version_file_path && @other_version_patterns.any?
+      @other_version_patterns.reduce(contents) do |new_contents, version_pattern|
+        new_contents.gsub(
+          version_pattern.sub('1.2.3', @version.to_s),
+          version_pattern.sub('1.2.3', @updated_version.to_s)
+        )
+      end
+    else
+      contents.gsub @version.to_s, @updated_version.to_s
+    end
   end
 
   def fetch_version(content)

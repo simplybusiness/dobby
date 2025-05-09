@@ -11,6 +11,7 @@ RSpec.describe Bump do
   let(:client) { instance_double(Octokit::Client) }
   let(:version_file_path) { 'path/to/version/file' }
   let(:other_version_file_paths) { ['path/to/other/version/file'] }
+  let(:other_version_patterns) { [] }
   let(:base_content) { instance_double(Content) }
   let(:head_content) { instance_double(Content) }
   let(:commit) { instance_double(Commit) }
@@ -18,7 +19,7 @@ RSpec.describe Bump do
   before do
     allow(config).to receive_messages(
       payload: payload, client: client, version_file_path: version_file_path,
-      other_version_file_paths: other_version_file_paths
+      other_version_file_paths: other_version_file_paths, other_version_patterns: other_version_patterns
     )
     allow(Content).to receive(:new).with(
       config: config, ref: 'base_branch',

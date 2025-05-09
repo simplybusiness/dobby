@@ -59,6 +59,11 @@ jobs:
           # OPTIONAL: Comma separated values for any other files that lock
           # their version to the same version in VERSION_FILE_PATH
           OTHER_VERSION_FILE_PATHS: 'package.json,package-lock.json,yarn.lock'
+          # OPTIONAL: Slash-separated strings to replace in the other version files
+          # Use the value 1.2.3 as the pattern, it will be replaced with the real
+          # version at runtime. This is to avoid changing not-relevant versions
+          # that might be the same as the library whose version you are bumping
+          OTHER_VERSION_PATTERNS: 'lib-name (1.2.3)/lib-name (= 1.2.3)/sub-lib-name (1.2.3)'
 ```
 
 **NOTE:** Workflow will only work once it merged to default (usually master) branch. It is because event `issue_comment` only work on default branch. See [discussion](https://github.community/t/on-issue-comment-events-are-not-triggering-workflows/16784/4) for more detail.
