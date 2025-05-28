@@ -9,7 +9,7 @@ gem 'semantic'
 group :development, :test do
   gem 'pry'
   gem 'rspec'
-  gem 'rspec-mocks', '~> 3.13.4'
+  gem 'rspec-mocks', '~> 3.13.5'
   gem 'simplecov', '< 0.18'
   gem 'simplycop', '2.17.3'
 end
