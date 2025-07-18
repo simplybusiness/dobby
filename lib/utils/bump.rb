@@ -3,8 +3,7 @@
 require_relative 'content'
 require_relative 'commit'
 
-class Bump
-  SEMVER = /
+SEMVER = /
     ["']?                # Optional quotes
     (0|[1-9]\d*)         # Major version
     \.                   # Dot separator
@@ -25,18 +24,19 @@ class Bump
     ["']?                # Optional quotes
   /x
 
-  SEPARATOR = /
-    \s*                  # Optional whitespace
-    [:=]                 # Separator (colon or equals)
-    \s*                  # Optional whitespace
-  /x
+SEPARATOR = /
+  \s*                  # Optional whitespace
+  [:=]                 # Separator (colon or equals)
+  \s*                  # Optional whitespace
+/x
 
-  VERSION_KEY = /
-    (?:^_+|^|\.|\s|"|')  # Optional prefix
-    (?:base|version)     # Key name
-    (?:["']*|_+)         # Optional suffix
-  /x
+VERSION_KEY = /
+  (?:^_+|^|\.|\s|"|')  # Optional prefix
+  (?:base|version)     # Key name
+  (?:["']*|_+)         # Optional suffix
+/x
 
+class Bump
   VERSION_SETTING = /
     #{VERSION_KEY.source} # Match version key
     #{SEPARATOR.source}   # Match separator
