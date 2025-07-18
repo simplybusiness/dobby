@@ -40,9 +40,9 @@ class Command
   end
 
   def init_error
-    error_msg = "Comment must start with #{COMMAND_PREFIX}"
-    puts "::error title=Argument Error::#{error_msg}"
+    msg = "Comment must start with #{COMMAND_PREFIX}"
+    puts "::error title=Argument Error::#{msg}"
     @message += "### :boom: Error:boom:\n\n The comment must start with #{COMMAND_PREFIX} so failing the action."
-    raise ArgumentError, error_msg
+    raise ArgumentError, msg
   end
 end
