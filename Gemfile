@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'jwt'
 gem 'octokit'
+gem 'ostruct'
 gem 'semantic'
 
 group :development, :test do
