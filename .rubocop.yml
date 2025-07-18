@@ -7,11 +7,5 @@ inherit_gem:
 AllCops:
   TargetRubyVersion: 3.2
 
-Metrics/AbcSize:
-  Enabled: false
-
 Metrics/ClassLength:
-  Enabled: false
-
-Metrics/MethodLength:
   Enabled: false
