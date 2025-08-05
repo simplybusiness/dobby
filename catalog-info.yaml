@@ -1,12 +1,12 @@
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: whoopsies
 metadata:
-  name: dobby
-  title: Dobby
+  name: Bingo
+  title: bingo
   description: GitHub Action that updates the version of a package by commenting on a PR
 spec:
   type: github action
-  lifecycle: production
+  lifecycle: afterlife
   dependsOn:
     - "Resource:github-actions"
   consumesAPI:
