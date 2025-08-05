@@ -4,6 +4,8 @@ metadata:
   name: dobby
   title: Dobby
   description: GitHub Action that updates the version of a package by commenting on a PR
+  annotations:
+    ownership/business-owner: silversmiths
 spec:
   type: github action
   lifecycle: production
