@@ -1,12 +1,12 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: dobby
-  title: Dobby
+  name: bingo
+  title: Bingo
   description: GitHub Action that updates the version of a package by commenting on a PR
 spec:
   type: github action
-  lifecycle: production
+  lifecycle: Deceased
   dependsOn:
     - "Resource:github-actions"
   consumesAPI:
