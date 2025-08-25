@@ -100,7 +100,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.38.0, < 2.0)
-    rubocop-rails (2.33.0)
+    rubocop-rails (2.33.3)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -124,13 +124,13 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (2.26.0)
+    simplycop (2.27.0)
       rubocop (= 1.79.2)
       rubocop-ast (= 1.46.0)
       rubocop-capybara (= 2.22.1)
       rubocop-factory_bot (= 2.27.1)
       rubocop-performance (= 1.25.0)
-      rubocop-rails (= 2.33.0)
+      rubocop-rails (= 2.33.3)
       rubocop-rspec (= 3.6.0)
       rubocop-rspec_rails (= 2.31.0)
     tzinfo (2.0.6)
@@ -153,7 +153,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.13.5)
   semantic
   simplecov (< 0.18)
-  simplycop (= 2.26.0)
+  simplycop (= 2.27.0)
 
 BUNDLED WITH
    2.5.22
