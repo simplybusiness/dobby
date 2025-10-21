@@ -54,7 +54,7 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
-    prism (1.5.2)
+    prism (1.6.0)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -76,7 +76,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.6)
-    rubocop (1.80.2)
+    rubocop (1.81.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -84,7 +84,7 @@ GEM
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.46.0, < 2.0)
+      rubocop-ast (>= 1.47.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.47.1)
@@ -127,8 +127,8 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (2.30.4)
-      rubocop (= 1.80.2)
+    simplycop (2.31.0)
+      rubocop (= 1.81.1)
       rubocop-ast (= 1.47.1)
       rubocop-capybara (= 2.22.1)
       rubocop-factory_bot (= 2.27.1)
@@ -157,7 +157,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.13.6)
   semantic
   simplecov (< 0.18)
-  simplycop (= 2.30.4)
+  simplycop (= 2.31.0)
 
 BUNDLED WITH
    2.5.22
