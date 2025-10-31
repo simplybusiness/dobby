@@ -5,7 +5,7 @@ metadata:
   title: Dobby
   description: GitHub Action that updates the version of a package by commenting on a PR
 spec:
-  type: github action
+  type: tooling
   lifecycle: production
   dependsOn:
     - "Resource:github-actions"
