@@ -71,7 +71,7 @@ GEM
     rspec-expectations (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.6)
+    rspec-mocks (3.13.7)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.6)
@@ -153,7 +153,7 @@ DEPENDENCIES
   ostruct
   pry
   rspec
-  rspec-mocks (~> 3.13.6)
+  rspec-mocks (~> 3.13.7)
   semantic
   simplecov (< 0.18)
   simplycop (= 2.31.1)
