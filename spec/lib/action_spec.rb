@@ -35,6 +35,13 @@ describe Action do
                     'head' => { 'ref' => 'my_branch' },
                     'base' => { 'ref' => 'master' }
                   })
+    # Mock the merge call for all tests
+    allow(client).to receive(:merge).with(
+      repo_full_name,
+      'my_branch',
+      'master',
+      commit_message: 'Merge master into my_branch'
+    ).and_return({ 'sha' => 'merge-sha' })
   end
 
   describe '#initiate_version_update' do

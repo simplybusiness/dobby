@@ -2,6 +2,7 @@
 
 require_relative 'content'
 require_relative 'commit'
+require_relative 'merge'
 
 SEMVER = /
     ["']?                # Optional quotes
@@ -57,6 +58,30 @@ class Bump
   end
 
   def bump_everything
+    merge_result = perform_merge
+    return merge_result unless merge_result.nil?
+
+    bump_versions
+  end
+
+  private
+
+  def perform_merge
+    merge = Merge.new(@config)
+    merge_result = merge.merge_base_into_head
+
+    unless merge_result[:success]
+      return "### :boom: Merge failed :boom:\n\n#{merge_result[:message]}"
+    end
+
+    @merge_message = "### Merge complete\n\n#{merge_result[:message]}\n\n"
+
+    # After successful merge, recalculate bumping data since files may have changed
+    calculate_bumping_data!
+    nil # Return nil to indicate merge succeeded and we should proceed
+  end
+
+  def bump_versions
     commit = Commit.new(@config)
     files = []
     files_messages = {}
@@ -68,10 +93,8 @@ class Bump
     end
 
     commit.multiple_files(files, "Bump #{@level} version") if files.any?
-    generate_message(files_messages)
+    @merge_message + generate_message(files_messages)
   end
-
-  private
 
   def calculate_bumping_data!
     base_branch_content = Content.new(config: @config, ref: @base_branch, path: @version_file_path)
