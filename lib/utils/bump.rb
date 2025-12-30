@@ -53,6 +53,7 @@ class Bump
     @other_version_file_paths = config.other_version_file_paths
     @other_version_patterns = config.other_version_patterns
     @repo = payload['repository']['full_name']
+    @merge_message = '' # Initialize to avoid nil pointer exception
     assign_pr_attributes!(payload['issue']['number'])
     calculate_bumping_data!
   end
@@ -76,7 +77,9 @@ class Bump
 
     @merge_message = "### Merge complete\n\n#{merge_result[:message]}\n\n"
 
-    # After successful merge, recalculate bumping data since files may have changed
+    # Recalculate bumping data after merge since the merge may have introduced
+    # changes to version files from the base branch. This ensures we're working
+    # with the most up-to-date content after the merge is complete.
     calculate_bumping_data!
     nil # Return nil to indicate merge succeeded and we should proceed
   end
