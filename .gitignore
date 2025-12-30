@@ -2,3 +2,6 @@
 
 # Coverage directory used by simplycov
 coverage
+
+# Bundler
+vendor/bundle
