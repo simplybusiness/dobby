@@ -38,6 +38,14 @@ RSpec.describe Bump do
                    'base' => { 'ref' => 'base_branch' }
                  })
 
+    # Mock the merge call
+    allow(client).to receive(:merge).with(
+      'owner/repo',
+      'head_branch',
+      'base_branch',
+      commit_message: 'Merge base_branch into head_branch'
+    ).and_return({ 'sha' => 'merge-sha' })
+
     allow(Commit).to receive(:new).with(config).and_return(commit)
     allow(commit).to receive(:multiple_files)
   end
@@ -81,14 +89,9 @@ RSpec.describe Bump do
 
       bump = Bump.new(config, 'patch')
       expect(commit).not_to receive(:multiple_files)
-      expect do
-        bump.bump_everything
-      end.to output(
-        "::notice title=Nothing to update::The desired version bump is already present for: " \
-        "#{other_version_file_paths[0]}\n" \
-        "::notice title=Nothing to update::The desired version bump is already present for: " \
-        "#{version_file_path}\n"
-      ).to_stdout
+      output = bump.bump_everything
+      expect(output).to include('Merge complete')
+      expect(output).to include('Nothing to update')
     end
 
     it 'retains modified version file content' do
@@ -125,6 +128,26 @@ RSpec.describe Bump do
         'Bump patch version'
       )
       bump.bump_everything
+    end
+
+    it 'returns error message when merge fails' do
+      allow(head_content).to receive(:content).and_return('version: 1.0.0')
+      allow(base_content).to receive(:content).and_return('version: 1.0.0')
+
+      # Override the default merge mock to simulate a failure
+      allow(client).to receive(:merge).with(
+        'owner/repo',
+        'head_branch',
+        'base_branch',
+        commit_message: 'Merge base_branch into head_branch'
+      ).and_raise(Octokit::Conflict.new)
+
+      bump = Bump.new(config, 'patch')
+      expect(commit).not_to receive(:multiple_files)
+      result = bump.bump_everything
+
+      expect(result).to include('Merge failed')
+      expect(result).to include('merge conflict detected')
     end
   end
 end

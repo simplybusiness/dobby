@@ -3,7 +3,7 @@
 “Dobby is free.”
 
 A Github action which provides chat-ops functionality. You can comment on a pull request to perform various operations.
-Currently it supports bumping version files in Ruby, Python and Javascript. The version file (see below) must specify the version
+Currently it supports bumping version files in Ruby, Python and Javascript. When bumping versions, Dobby first merges the default branch into your PR branch to ensure it's up to date, then proceeds with the version bump. The version file (see below) must specify the version
 as a key-value pair separated by either ":" or "=", e.g. `VERSION: '1.2.3'` or `version = 1.2.3` 
 
 ## Bump version
@@ -78,6 +78,11 @@ jobs:
 ```
 where semver level can be minor/major/patch.
 
-2. You can see bot will add a comment on Pull request.
+2. When you run the command, Dobby will:
+   - First merge the default branch (e.g., main/master) into your PR branch to ensure it's up to date
+   - Then bump the version in the specified files if the merge is successful
+   - If the merge fails (e.g., due to conflicts), the version bump will not proceed and you'll need to resolve conflicts manually
+
+3. You can see bot will add a comment on Pull request.
    
    ![Version update comment](docs/images/version-update.png)
