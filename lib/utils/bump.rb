@@ -86,10 +86,10 @@ class Bump
   end
 
   def get_content_update(path)
-    head_branch_content = Content.new(config: @config, ref: @head_branch, path: path).content
-    updated_base_branch_content = update_file_contents(path, head_branch_content)
+    base_branch_content = Content.new(config: @config, ref: @base_branch, path: path).content
+    updated_base_branch_content = update_file_contents(path, base_branch_content)
 
-    if head_branch_content == updated_base_branch_content
+    if base_branch_content == updated_base_branch_content
       puts "::notice title=Nothing to update::The desired version bump is already present for: #{path}"
       return nil
     end

@@ -1,8 +1,0 @@
-{"vulnerabilities":
-  {"rails": [
-    {
-      "search_string": "caches_page",
-      "info": "https://nvd.nist.gov/vuln/detail/CVE-2020-8159"
-    }
-  ]}
-}
