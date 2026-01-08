@@ -1,0 +1,45 @@
+plugins: rubocop-capybara
+
+Capybara/AmbiguousClick:
+  Enabled: true
+
+# Deprecated, will be removed in 3.0. Superseded by Capybara/AmbiguousClick.
+# No conflicts expected as this is currently disabled anyway
+Capybara/ClickLinkOrButtonStyle:
+  Enabled: false
+
+Capybara/CurrentPathExpectation:
+  Enabled: true
+
+Capybara/FindAllFirst:
+  Enabled: true
+
+Capybara/MatchStyle:
+  Enabled: true
+
+Capybara/NegationMatcher:
+  Enabled: true
+
+Capybara/NegationMatcherAfterVisit:
+  Enabled: false
+
+Capybara/RedundantWithinFind:
+  Enabled: true
+
+Capybara/SpecificActions:
+  Enabled: true
+
+Capybara/SpecificFinders:
+  Enabled: true
+
+Capybara/SpecificMatcher:
+  Enabled: true
+
+Capybara/VisibilityMatcher:
+  Enabled: true
+
+Capybara/RSpec/HaveSelector:
+  Enabled: true
+
+Capybara/RSpec/PredicateMatcher:
+  Enabled: true

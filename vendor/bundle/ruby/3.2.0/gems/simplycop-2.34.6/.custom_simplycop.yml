@@ -1,0 +1,40 @@
+require:
+  - './lib/simplycop/custom_cops/timecop_without_block.rb'
+  - './lib/simplycop/custom_cops/dont_print_all_env.rb'
+  - './lib/simplycop/custom_cops/no_foreground_indices.rb'
+  - './lib/simplycop/custom_cops/variable_name_shadowing_method.rb'
+  - './lib/simplycop/custom_cops/version_comparison.rb'
+
+AllCops:
+  ExtraDetails: true
+
+CustomCops/TimecopWithoutBlock:
+  Enabled: true
+  Details: >-
+    Time in all tests is faked to be midday. Using `Timecop.return` rather than the block format will spoil that for all subsequent tests.
+    `https://github.com/simplybusiness/chopin/pull/10607`
+
+CustomCops/DontPrintAllEnv:
+  Enabled: true
+  Details: >-
+    This cop checks if someone accidentally print all environment variables as they may contain secrets.
+
+CustomCops/NoForegroundIndices:
+  Enabled: true
+  Details: We want to prevent adding Mongoid indices that are not in background, otherwise the collection will lock during indexing.
+
+  Include:
+    - app/models/*
+
+CustomCops/VariableNameShadowingMethod:
+  Enabled: true
+  Details: >-
+    This cop checks for local variable assignments that shadow method names in the same scope.
+    This can cause subtle bugs where the variable returns nil instead of calling the method,
+    since Ruby determines local variable scope at parse time, not runtime.
+
+CustomCops/VersionComparison:
+  Enabled: true
+  Details: >-
+    This cop checks for string-based version comparisons which can produce incorrect results.
+    Use Gem::Version for reliable version comparisons.

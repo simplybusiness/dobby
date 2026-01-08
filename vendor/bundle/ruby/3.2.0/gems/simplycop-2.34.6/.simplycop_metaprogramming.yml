@@ -1,0 +1,29 @@
+require:
+  - './lib/simplycop/custom_cops/constantize.rb'
+  - './lib/simplycop/custom_cops/define_method.rb'
+  - './lib/simplycop/custom_cops/instance_eval.rb'
+  - './lib/simplycop/custom_cops/method_missing.rb'
+
+CustomCops/Constantize:
+  Enabled: true
+  Details: >-
+    Decision 001 : Avoid metaprogamming, where feasible
+    `https://backstage.simplybusiness.io/docs/default/component/chopin/decision-records/001-metaprogramming/001-metaprogramming/`
+
+CustomCops/DefineMethod:
+  Enabled: true
+  Details: >-
+    Decision 001 : Avoid metaprogamming, where feasible
+    `https://backstage.simplybusiness.io/docs/default/component/chopin/decision-records/001-metaprogramming/001-metaprogramming/`
+
+CustomCops/InstanceEval:
+  Enabled: true
+  Details: >-
+    Decision 001 : Avoid metaprogamming, where feasible
+    `https://backstage.simplybusiness.io/docs/default/component/chopin/decision-records/001-metaprogramming/001-metaprogramming/`
+
+CustomCops/MethodMissing:
+  Enabled: true
+  Details: >-
+    Decision 001 : Avoid metaprogamming, where feasible
+    `https://backstage.simplybusiness.io/docs/default/component/chopin/decision-records/001-metaprogramming/001-metaprogramming/`

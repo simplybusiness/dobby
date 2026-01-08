@@ -1,0 +1,904 @@
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+Style/AccessorGrouping:
+  Enabled: true
+
+Style/Alias:
+  Enabled: false
+
+Style/AmbiguousEndlessMethodDefinition:
+  Enabled: true
+
+Style/AndOr:
+  Enabled: true
+
+Style/ArgumentsForwarding:
+  Enabled: true
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/ArrayFirstLast:
+  Enabled: false
+
+Style/ArrayIntersect:
+  Enabled: true
+
+Style/ArrayIntersectWithSingleElement:
+  Enabled: true
+  
+Style/ArrayJoin:
+  Enabled: true
+
+Style/AsciiComments:
+  Enabled: true
+  AllowedChars:
+    - £
+    - ©
+
+Style/Attr:
+  Enabled: true
+
+# Requires fixes in Chopin and Rater
+Style/AutoResourceCleanup:
+  Enabled: true
+
+Style/BarePercentLiterals:
+  Enabled: true
+
+Style/BeginBlock:
+  Enabled: true
+
+Style/BisectedAttrAccessor:
+  Enabled: true
+
+Style/BitwisePredicate:
+  Enabled: true
+
+Style/BlockComments:
+  Enabled: true
+
+# Enabled by default and used in Rater so made explicit here
+# However, overridden by Chopin to do file and proposal to use semantic style:
+# See #technical-excellence-community discussion 28/02/23
+Style/BlockDelimiters:
+  Enabled: true
+
+Style/CaseEquality:
+  Enabled: true
+
+Style/CaseLikeIf:
+  Enabled: true
+
+Style/CharacterLiteral:
+  Enabled: true
+
+Style/ClassAndModuleChildren:
+  Enabled: true
+  Exclude:
+    - spec/**/*.rb
+
+Style/ClassCheck:
+  Enabled: true
+
+Style/ClassEqualityComparison:
+  Enabled: true
+
+Style/ClassMethods:
+  Enabled: true
+
+# Requires discussion - multiple fails on Chopin/Rater/CoCo when set true with default
+Style/ClassMethodsDefinitions:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: true
+
+Style/CollectionCompact:
+  Enabled: true
+
+# Requires discussion - multiple fails on Chopin/Rater/CoCo when set true with default
+Style/CollectionMethods:
+  Enabled: false
+
+Style/CollectionQuerying:
+  Enabled: true
+
+Style/ColonMethodCall:
+  Enabled: true
+  Severity: warning
+
+Style/ColonMethodDefinition:
+  Enabled: true
+
+Style/CombinableDefined:
+  Enabled: true
+
+Style/CombinableLoops:
+  Enabled: true
+
+Style/CommandLiteral:
+  Enabled: true
+
+Style/CommentAnnotation:
+  Enabled: true
+
+Style/CommentedKeyword:
+  Enabled: true
+
+# Has a marginal performance impact (see https://docs.rubocop.org/rubocop/cops_style.html#stylecomparablebetween) 
+# that "generally isn't observable" so enable, but individual projects can disable if necessary
+Style/ComparableBetween:
+  Enabled: true
+
+# TODO: Single fail on Rater
+Style/ComparableClamp:
+  Enabled: true
+
+Style/ConcatArrayLiterals:
+  Enabled: true
+
+Style/ConditionalAssignment:
+  Enabled: true
+
+# Requires discussion - 1000+ offences in Chopin alone, unless options set
+Style/ConstantVisibility:
+  Enabled: false
+
+# For discussion
+Style/Copyright:
+  Enabled: false
+
+Style/DataInheritance:
+  Enabled: true
+
+# Requires discussion - multiple fails on Chopin/Rater/CoCo if true
+Style/DateTime:
+  Enabled: false
+
+Style/DefWithParentheses:
+  Enabled: true
+
+Style/DigChain:
+  Enabled: true
+
+Style/Dir:
+  Enabled: true
+
+Style/DirEmpty:
+  Enabled: true
+
+# For discussion - - multiple fails on Chopin/Rater/CoCo
+Style/DisableCopsWithinSourceCodeDirective:
+  Enabled: false
+
+Style/DocumentDynamicEvalDefinition:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+# Requires discussion - suggest false as 7000+ offences in Chopin alone
+Style/DocumentationMethod:
+  Enabled: false
+
+Style/DoubleCopDisableDirective:
+  Enabled: true
+
+Style/DoubleNegation:
+  Enabled: true
+
+# Need override in Rater
+Style/EachForSimpleLoop:
+  Enabled: true
+
+Style/EachWithObject:
+  Enabled: true
+
+Style/EmptyBlockParameter:
+  Enabled: true
+
+Style/EmptyCaseCondition:
+  Enabled: true
+
+Style/EmptyElse:
+  Enabled: true
+
+Style/EmptyHeredoc:
+  Enabled: true
+
+Style/EmptyLambdaParameter:
+  Enabled: true
+
+Style/EmptyLiteral:
+  Enabled: true
+
+Style/EmptyMethod:
+  Enabled: true
+
+Style/EmptyStringInsideInterpolation:
+  Enabled: true
+
+Style/Encoding:
+  Enabled: true
+
+Style/EndBlock:
+  Enabled: true
+
+Style/EndlessMethod:
+  Enabled: true
+
+Style/EnvHome:
+  Enabled: true
+
+Style/EvalWithLocation:
+  Enabled: true
+
+Style/EvenOdd:
+  Enabled: true
+
+Style/ExactRegexpMatch:
+  Enabled: true
+
+Style/ExpandPathArguments:
+  Enabled: true
+
+Style/ExplicitBlockArgument:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: false
+
+Style/FetchEnvVar:
+  Enabled: true
+  AutoCorrect: disabled
+
+Style/FileEmpty:
+  Enabled: true
+
+Style/FileRead: # new in 1.24
+  Enabled: true
+
+# Overridden to false in Chopin
+Style/FileWrite:
+  Enabled: true
+
+Style/FloatDivision:
+  Enabled: true
+
+Style/For:
+  Enabled: true
+
+Style/FormatString:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/FileNull:
+  Enabled: true
+
+Style/FileTouch:
+  Enabled: false
+
+Style/GlobalStdStream:
+  Enabled: true
+
+Style/GlobalVars:
+  Enabled: true
+
+Style/GuardClause:
+  Enabled: false
+
+Style/HashAsLastArrayItem:
+  Enabled: true
+
+Style/HashConversion:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: false
+
+Style/HashExcept:
+  Enabled: true
+
+Style/HashFetchChain:
+  Enabled: true
+
+Style/HashLikeCase:
+  Enabled: false
+
+Style/HashSlice:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: no_mixed_keys
+  EnforcedShorthandSyntax: either_consistent
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/IdenticalConditionalBranches:
+  Enabled: true
+
+Style/IfInsideElse:
+  Enabled: true
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/IfUnlessModifierOfIfUnless:
+  Enabled: true
+
+Style/IfWithBooleanLiteralBranches:
+  Enabled: true
+
+Style/IfWithSemicolon:
+  Enabled: true
+
+# For dicussion - 100s of fails on Chopin, CoCo, Rater
+Style/ImplicitRuntimeError:
+  Enabled: false
+
+Style/InfiniteLoop:
+  Enabled: true
+
+Style/InlineComment:
+  Enabled: false
+
+Style/InverseMethods:
+  Enabled: true
+
+Style/InvertibleUnlessCondition:
+  Enabled: true
+
+Style/InPatternThen: # new in 1.16
+  Enabled: true
+
+# For discussion - disabled by default but could be enabled
+# and mostly solved by excluding spec files
+Style/IpAddresses:
+  Enabled: false
+#   Enabled: true
+#   Exclude: [*spec.rb]
+
+Style/ItAssignment:
+  Enabled: true
+
+Style/ItBlockParameter:
+  Enabled: true
+  EnforcedStyle: only_numbered_parameters
+
+Style/KeywordArgumentsMerging:
+  Enabled: true
+
+Style/KeywordParametersOrder:
+  Enabled: true
+
+Style/Lambda:
+  Enabled: true
+
+Style/LambdaCall:
+  Enabled: true
+
+Style/LineEndConcatenation:
+  Enabled: true
+
+Style/MagicCommentFormat: # new in 1.35
+  Enabled: true
+
+Style/MapCompactWithConditionalBlock: # new in 1.30
+  Enabled: true
+
+Style/MapIntoArray: # new in 1.63
+  Enabled: true
+
+# Overridden to false in Chopin
+Style/MapToHash:
+  Enabled: true
+
+# Overridden to false in Chopin
+Style/MapToSet:
+  Enabled: true
+
+# For discussion - 1000s of fails if set true
+Style/MethodCallWithArgsParentheses:
+  Enabled: false
+
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
+# For discussion - 100s of fails if set true
+Style/MethodCalledOnDoEndBlock:
+  Enabled: false
+
+Style/MethodDefParentheses:
+  Enabled: true
+
+Style/MinMax:
+  Enabled: true
+
+# Overridden to false in Chopin
+Style/MinMaxComparison:
+  Enabled: true
+
+Style/MissingElse:
+  Enabled: false
+
+Style/MissingRespondToMissing:
+  Enabled: true
+
+Style/MixinGrouping:
+  Enabled: true
+
+Style/MixinUsage:
+  Enabled: true
+
+Style/ModuleFunction:
+  Enabled: true
+
+Style/ModuleMemberExistenceCheck:
+  Enabled: true
+
+Style/MultilineBlockChain:
+  Enabled: true
+
+Style/MultilineIfModifier:
+  Enabled: true
+
+Style/MultilineIfThen:
+  Enabled: true
+
+Style/MultilineInPatternThen: # new in 1.16
+  Enabled: true
+
+Style/MultilineMemoization:
+  Enabled: true
+
+# For discussion - suggest true, but 100s of fails in Chopin and handful in CoCo
+Style/MultilineMethodSignature:
+  Enabled: false
+
+Style/MultilineTernaryOperator:
+  Enabled: true
+
+Style/MultilineWhenThen:
+  Enabled: true
+
+Style/MultipleComparison:
+  Enabled: true
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/NegatedIf:
+  Enabled: true
+
+Style/NegatedIfElseCondition:
+  Enabled: true
+
+Style/NegatedUnless:
+  Enabled: true
+
+Style/NegatedWhile:
+  Enabled: true
+
+Style/NestedFileDirname:
+  Enabled: true
+
+Style/NestedModifier:
+  Enabled: true
+
+Style/NestedParenthesizedCalls:
+  Enabled: true
+
+Style/NestedTernaryOperator:
+  Enabled: true
+
+Style/Next:
+  Enabled: true
+
+Style/NilComparison:
+  Enabled: true
+
+Style/NilLambda:
+  Enabled: true
+
+Style/NonNilCheck:
+  Enabled: true
+
+Style/Not:
+  Enabled: true
+
+Style/NumberedParameters:
+  Enabled: true
+
+Style/NumberedParametersLimit:
+  Enabled: true
+
+Style/NumericLiteralPrefix:
+  Enabled: true
+
+Style/NumericLiterals:
+  Enabled: true
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/ObjectThen:
+  Enabled: true
+
+Style/OneLineConditional:
+  Enabled: true
+
+# Overridden to false in Chopin
+Style/OpenStructUse:
+  Enabled: true
+
+Style/OperatorMethodCall:
+  Enabled: true
+
+Style/OptionHash:
+  Enabled: true
+
+Style/OptionalArguments:
+  Enabled: true
+
+Style/OptionalBooleanParameter:
+  Enabled: true
+
+Style/OrAssignment:
+  Enabled: true
+
+Style/ParallelAssignment:
+  Enabled: true
+
+Style/ParenthesesAroundCondition:
+  Enabled: true
+
+Style/PercentLiteralDelimiters:
+  Enabled: true
+
+Style/PercentQLiterals:
+  Enabled: true
+
+Style/PerlBackrefs:
+  Enabled: true
+
+Style/PreferredHashMethods:
+  Enabled: true
+
+Style/Proc:
+  Enabled: true
+
+# Overridden to false in Chopin and Rater
+Style/QuotedSymbols:
+  Enabled: true
+
+Style/RaiseArgs:
+  Enabled: true
+
+Style/RandomWithOffset:
+  Enabled: true
+
+Style/RedundantArgument:
+  Enabled: false
+
+Style/RedundantArrayConstructor:
+  Enabled: true
+
+Style/RedundantArrayFlatten:
+  Enabled: true
+
+Style/RedundantAssignment:
+  Enabled: true
+
+Style/RedundantBegin:
+  Enabled: true
+
+Style/RedundantCapitalW:
+  Enabled: true
+
+Style/RedundantCondition:
+  Enabled: true
+
+Style/RedundantConditional:
+  Enabled: true
+
+Style/RedundantConstantBase:
+  Enabled: false
+
+Style/RedundantCurrentDirectoryInPath:
+  Enabled: false
+
+Style/RedundantDoubleSplatHashBraces:
+  Enabled: true
+
+Style/RedundantEach:
+  Enabled: true
+
+Style/RedundantException:
+  Enabled: true
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
+
+Style/RedundantFilterChain:
+  Enabled: true
+
+Style/RedundantFormat:
+  Enabled: true
+
+Style/RedundantFreeze:
+  Enabled: true
+
+Style/RedundantHeredocDelimiterQuotes:
+  Enabled: true
+
+Style/RedundantInitialize:
+  Enabled: true
+
+Style/RedundantInterpolation:
+  Enabled: false
+
+Style/RedundantInterpolationUnfreeze:
+  Enabled: true
+
+Style/RedundantLineContinuation:
+  Enabled: true
+
+Style/RedundantParentheses:
+  Enabled: true
+
+Style/RedundantPercentQ:
+  Enabled: true
+
+Style/RedundantRegexpArgument:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+Style/RedundantRegexpConstructor:
+  Enabled: true
+
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+Style/RedundantReturn:
+  Enabled: true
+  Severity: warning
+
+Style/RedundantSelf:
+  Enabled: true
+
+Style/RedundantSelfAssignment:
+  Enabled: true
+
+# Overridden to false in Chopin
+Style/RedundantSelfAssignmentBranch:
+  Enabled: true
+
+Style/RedundantSort:
+  Enabled: true
+
+Style/RedundantSortBy:
+  Enabled: true
+
+# Overridden to false in Chopin
+Style/RedundantStringEscape:
+  Enabled: true
+
+Style/RegexpLiteral:
+  Enabled: true
+
+# For discussion - would improve legibility if set true
+Style/RequireOrder:
+  Enabled: false
+
+Style/RescueModifier:
+  Enabled: true
+
+Style/RescueStandardError:
+  Enabled: true
+
+# For discussion - agreed configuration would be nice
+Style/ReturnNil:
+  Enabled: false
+
+# For discussion - as ReturnNil agreed configuration would be nice
+Style/ReturnNilInPredicateMethodDefinition:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+
+Style/SafeNavigationChainLength:
+  Enabled: false
+
+Style/Sample:
+  Enabled: true
+
+# Overridden to false in Chopin
+Style/SelectByRegexp:
+  Enabled: true
+
+Style/SelfAssignment:
+  Enabled: true
+
+Style/Semicolon:
+  Enabled: true
+
+Style/Send:
+  Enabled: false
+
+Style/SendWithLiteralMethodName:
+  Enabled: true
+
+Style/SignalException:
+  Enabled: true
+
+Style/SingleArgumentDig:
+  Enabled: true
+
+# If this is to be set true, desired param names need to be set for reduce and inject
+# (default is |acc, elem|) and current usage suggests domain relevant names are preferred
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Style/SingleLineDoEndBlock:
+  Enabled: true
+
+Style/SingleLineMethods:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: false
+
+Style/SoleNestedConditional:
+  Enabled: true
+
+Style/SpecialGlobalVars:
+  Enabled: true
+  Severity: warning
+
+Style/StabbyLambdaParentheses:
+  Enabled: true
+
+# Unsafe autocorrect and many fails on multiple repos
+Style/StaticClass:
+  Enabled: false
+
+# TODO: Small number of autocorrects in Chopin
+Style/StderrPuts:
+  Enabled: true
+
+Style/StringChars:
+  Enabled: true
+
+Style/StringConcatenation:
+  Enabled: true
+
+Style/StringHashKeys:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+
+Style/StringMethods:
+  Enabled: true
+
+Style/Strip:
+  Enabled: true
+
+Style/StructInheritance:
+  Enabled: true
+
+Style/SuperArguments:
+  Enabled: true
+
+Style/SuperWithArgsParentheses:
+  Enabled: true
+
+Style/SwapValues:
+  Enabled: true
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/SymbolLiteral:
+  Enabled: true
+
+Style/SymbolProc:
+  Enabled: true
+
+Style/TernaryParentheses:
+  Enabled: true
+
+# For discussion - suggest should be true or at least warn but large number of fails on repos
+Style/TopLevelMethodDefinition:
+  Enabled: false
+
+Style/TrailingBodyOnClass:
+  Enabled: true
+
+Style/TrailingBodyOnMethodDefinition:
+  Enabled: true
+
+Style/TrailingBodyOnModule:
+  Enabled: true
+
+# Will require Chopin override
+Style/TrailingCommaInArguments:
+  Enabled: true
+
+# Will require Chopin override
+Style/TrailingCommaInArrayLiteral:
+  Enabled: true
+
+Style/TrailingCommaInBlockArgs:
+  Enabled: true
+
+# Will require Chopin override
+Style/TrailingCommaInHashLiteral:
+  Enabled: true
+
+Style/TrailingMethodEndStatement:
+  Enabled: true
+
+Style/TrailingUnderscoreVariable:
+  Enabled: true
+
+Style/TrivialAccessors:
+  Enabled: true
+
+Style/UnlessElse:
+  Enabled: true
+
+Style/UnlessLogicalOperators:
+  Enabled: true
+
+Style/UnpackFirst:
+  Enabled: true
+
+Style/VariableInterpolation:
+  Enabled: true
+
+Style/WhenThen:
+  Enabled: true
+
+Style/WhileUntilDo:
+  Enabled: true
+
+Style/WhileUntilModifier:
+  Enabled: true
+
+Style/WordArray:
+  Enabled: true
+  EnforcedStyle: brackets
+
+Style/YAMLFileRead:
+  Enabled: true
+
+Style/YodaCondition:
+  Enabled: false
+
+Style/YodaExpression:
+  Enabled: false
+
+Style/ZeroLengthPredicate:
+  Enabled: true

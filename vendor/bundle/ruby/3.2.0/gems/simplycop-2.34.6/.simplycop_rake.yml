@@ -1,0 +1,13 @@
+plugins: rubocop-rake
+
+Rake/ClassDefinitionInTask:
+  Enabled: true
+
+Rake/Desc:
+  Enabled: false
+
+Rake/DuplicateNamespace:
+  Enabled: true
+
+Rake/DuplicateTask:
+  Enabled: true

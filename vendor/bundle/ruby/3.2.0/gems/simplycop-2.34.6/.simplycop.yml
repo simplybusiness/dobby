@@ -1,0 +1,30 @@
+inherit_from:
+  - .custom_simplycop.yml
+  - .simplycop_metaprogramming.yml
+  - .simplycop_bundler.yml
+  - .simplycop_gemspec.yml
+  - .simplycop_layout.yml
+  - .simplycop_lint.yml
+  - .simplycop_metrics.yml
+  - .simplycop_migration.yml
+  - .simplycop_naming.yml
+  - .simplycop_security.yml
+  - .simplycop_style.yml
+
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/**/*'
+
+  # Cop names are not displayed in offense messages by default. Change behavior
+  # by overriding DisplayCopNames, or by giving the -D/--display-cop-names
+  # option.
+  DisplayCopNames: true
+  # Style guide URLs are not displayed in offense messages by default. Change
+  # behavior by overriding DisplayStyleGuide, or by giving the
+  # -S/--display-style-guide option.
+  DisplayStyleGuide: true
+  UseCache: true
+  MaxFilesInCache: 25000
+  ExtraDetails: true
+# Adapted from: https://github.com/simplybusiness/how-we-roll/blob/master/development/RUBYSTYLEGUIDE.markdown

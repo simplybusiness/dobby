@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "05:00"
+    open-pull-requests-limit: 99
+    labels:
+      - dependencies
+    groups:
+      test-dependencies:
+        patterns:
+          - "rubocop*"
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "05:00"
+    open-pull-requests-limit: 99
+    labels:
+      - dependencies

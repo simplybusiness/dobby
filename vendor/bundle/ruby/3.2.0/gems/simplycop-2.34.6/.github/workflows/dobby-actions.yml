@@ -1,0 +1,16 @@
+
+name: "Dobby action"
+on:
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  pr_commented:
+      uses: simplybusiness/github-action-reusable-workflows/.github/workflows/dobby.yaml@v1
+      with:
+        version_file_path: 'lib/simplycop/version.rb'
+        other_version_file_paths: 'catalog-info.yaml'
+      secrets: inherit
+      

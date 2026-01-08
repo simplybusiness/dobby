@@ -1,0 +1,34 @@
+Gemspec/AddRuntimeDependency:
+  Enabled: true
+
+Gemspec/AttributeAssignment:
+  Enabled: true
+
+# To discuss: Suggest true but 3 fails on Chopin, 21 on Rater
+Gemspec/DependencyVersion:
+  Enabled: false
+
+# TODO: 1 autocorrectable in Rater and it would pass
+Gemspec/DeprecatedAttributeAssignment:
+  Enabled: true
+
+# 2 fails on Chopin, 10 on Rater, so override if necessary
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+
+Gemspec/DuplicatedAssignment:
+  Enabled: true
+
+Gemspec/OrderedDependencies:
+  Enabled: true
+
+# TODO: Suggest true but 4 fails on Chopin, 3 on Rater, overridden to false on Chopin
+Gemspec/RequireMFA:
+  Enabled: false
+
+# Will need Chopin override
+Gemspec/RequiredRubyVersion:
+  Enabled: true
+
+Gemspec/RubyVersionGlobalsUsage:
+  Enabled: true
