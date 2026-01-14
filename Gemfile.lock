@@ -53,10 +53,10 @@ GEM
       sawyer (~> 0.9)
     ostruct (0.6.3)
     parallel (1.27.0)
-    parser (3.3.10.0)
+    parser (3.3.10.1)
       ast (~> 2.4.1)
       racc
-    prism (1.7.0)
+    prism (1.8.0)
     pry (0.16.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -114,7 +114,7 @@ GEM
     rubocop-rake (0.7.1)
       lint_roller (~> 1.1)
       rubocop (>= 1.72.1)
-    rubocop-rspec (3.8.0)
+    rubocop-rspec (3.9.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.81)
     rubocop-rspec_rails (2.32.0)
@@ -132,7 +132,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    simplycop (2.34.7)
+    simplycop (2.35.0)
       benchmark (~> 0.3)
       rubocop (= 1.82.1)
       rubocop-ast (= 1.49.0)
@@ -141,7 +141,7 @@ GEM
       rubocop-performance (= 1.26.1)
       rubocop-rails (= 2.34.3)
       rubocop-rake (= 0.7.1)
-      rubocop-rspec (= 3.8.0)
+      rubocop-rspec (= 3.9.0)
       rubocop-rspec_rails (= 2.32.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -163,7 +163,7 @@ DEPENDENCIES
   rspec-mocks (~> 3.13.7)
   semantic
   simplecov (< 0.18)
-  simplycop (= 2.34.7)
+  simplycop (= 2.35.0)
 
 BUNDLED WITH
    2.5.22
