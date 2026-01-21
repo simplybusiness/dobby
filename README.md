@@ -32,6 +32,9 @@ name: "Dobby action"
 on:
   issue_comment:
     types: [created]
+permissions:
+  contents: read
+  pull-requests: write
 jobs:
   pr_commented:
     runs-on: ubuntu-latest
