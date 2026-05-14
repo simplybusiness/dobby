@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'json'
 require_relative 'content'
 require_relative 'commit'
 
@@ -98,7 +99,9 @@ class Bump
   end
 
   def update_file_contents(path, contents)
-    if path != @version_file_path && @other_version_patterns.any?
+    if File.basename(path) == 'package-lock.json'
+      update_package_lock_contents(contents)
+    elsif path != @version_file_path && @other_version_patterns.any?
       @other_version_patterns.reduce(contents) do |new_contents, version_pattern|
         new_contents.gsub(
           version_pattern.sub('1.2.3', @version.to_s),
@@ -107,6 +110,24 @@ class Bump
       end
     else
       contents.gsub @version.to_s, @updated_version.to_s
+    end
+  end
+
+  # Node's package-lock.json file contains many version strings which can potentially match the version string we need
+  # to update. We restrict our regex replacement to the "version": line just below the "name": line that matches
+  # the top-level package name (i.e. the version of the main package and not any of its dependencies).
+  def update_package_lock_contents(contents)
+    parsed = JSON.parse(contents)
+    return contents unless parsed['version'] == @version.to_s
+
+    package_name = parsed['name']
+    # This pattern matches 2 adjacent lines, one beginning with "name" and the package name, the next being the
+    # current version string to replace with the new one. We then restrict our replace to only sections of the
+    # file that match this pattern.
+    pattern =
+      /"name"\s*:\s*"#{Regexp.escape(package_name)}"\s*,\n[^"]*"version"\s*:\s*"#{Regexp.escape(@version.to_s)}"/
+    contents.gsub(pattern) do |match|
+      match.gsub(@version.to_s, @updated_version.to_s)
     end
   end
 

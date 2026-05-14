@@ -109,6 +109,41 @@ RSpec.describe Bump do
       bump.bump_everything
     end
 
+    context 'when other version file is a package-lock.json' do
+      let(:other_version_file_paths) { ['package-lock.json'] }
+      let(:other_version_patterns) { [] }
+
+      it 'only updates the top-level version fields, not dependency versions' do
+        fixture = File.read(File.join(__dir__, '../../fixtures/package-lock.json'))
+
+        allow(base_content).to receive(:content).and_return('version: 1.0.0')
+
+        pkg_lock_content = instance_double(Content, content: fixture)
+        allow(Content).to receive(:new).with(
+          config: config, ref: 'head_branch', path: 'package-lock.json'
+        ).and_return(pkg_lock_content)
+
+        version_content = instance_double(Content, content: 'version: 1.0.0')
+        allow(Content).to receive(:new).with(
+          config: config, ref: 'head_branch', path: version_file_path
+        ).and_return(version_content)
+
+        bump = Bump.new(config, 'patch')
+
+        expect(commit).to receive(:multiple_files) do |files, _msg|
+          pkg_lock_file = files.find { |f| f[:path] == 'package-lock.json' }
+          parsed = JSON.parse(pkg_lock_file[:content])
+
+          expect(parsed['version']).to eq('1.0.1')
+          expect(parsed.dig('packages', '', 'version')).to eq('1.0.1')
+          expect(parsed.dig('packages', 'node_modules/some-dep', 'version')).to eq('1.0.0')
+          expect(parsed.dig('packages', 'node_modules/other-dep', 'version')).to eq('2.3.4')
+        end
+
+        bump.bump_everything
+      end
+    end
+
     it 'handles python underscored version format' do
       allow(head_content).to receive(:content).and_return('__version__ = "1.0.0"')
       allow(base_content).to receive(:content).and_return('__version__ = "1.0.0"')
