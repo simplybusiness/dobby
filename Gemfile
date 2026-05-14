@@ -12,7 +12,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-mocks', '~> 3.13.8'
   gem 'simplecov', '< 0.18'
-  gem 'simplycop', '2.42.2'
+  gem 'simplycop', '2.42.3'
 end
 
 gem "faraday-retry", "~> 2.4"
