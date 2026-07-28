@@ -50,6 +50,7 @@ class Bump
     payload = config.payload
     @client = config.client
     @version_file_path = config.version_file_path
+    @version_file_pattern = config.version_file_pattern
     @other_version_file_paths = config.other_version_file_paths
     @other_version_patterns = config.other_version_patterns
     @repo = payload['repository']['full_name']
@@ -102,14 +103,20 @@ class Bump
     if File.basename(path) == 'package-lock.json'
       update_package_lock_contents(contents)
     elsif path != @version_file_path && @other_version_patterns.any?
-      @other_version_patterns.reduce(contents) do |new_contents, version_pattern|
-        new_contents.gsub(
-          version_pattern.sub('1.2.3', @version.to_s),
-          version_pattern.sub('1.2.3', @updated_version.to_s)
-        )
-      end
+      update_with_patterns(@other_version_patterns, contents)
+    elsif path == @version_file_path && !@version_file_pattern.empty?
+      update_with_patterns([@version_file_pattern], contents)
     else
       contents.gsub @version.to_s, @updated_version.to_s
+    end
+  end
+
+  def update_with_patterns(patterns, contents)
+    patterns.reduce(contents) do |new_contents, version_pattern|
+      new_contents.gsub(
+        version_pattern.sub('1.2.3', @version.to_s),
+        version_pattern.sub('1.2.3', @updated_version.to_s)
+      )
     end
   end
 
