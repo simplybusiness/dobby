@@ -113,10 +113,9 @@ class Bump
 
   def update_with_patterns(patterns, contents)
     patterns.reduce(contents) do |new_contents, version_pattern|
-      new_contents.gsub(
-        version_pattern.sub('1.2.3', @version.to_s),
-        version_pattern.sub('1.2.3', @updated_version.to_s)
-      )
+      from = version_pattern.gsub('1.2.3', @version.to_s)
+      to = version_pattern.gsub('1.2.3', @updated_version.to_s)
+      new_contents.gsub(from, to)
     end
   end
 

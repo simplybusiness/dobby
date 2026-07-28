@@ -63,7 +63,11 @@ jobs:
           # Use the value 1.2.3 as a placeholder for the version number.
           # When set, only text matching this pattern will be replaced, preventing
           # unintended updates to dependencies sharing the same version number.
-          # Example for Cargo.toml: 'name = "my-crate"\nversion = "1.2.3"'
+          # Use YAML multiline syntax (|-) for patterns that span multiple lines.
+          # Example for Cargo.toml:
+          #   VERSION_FILE_PATTERN: |-
+          #     name = "my-crate"
+          #     version = "1.2.3"
           VERSION_FILE_PATTERN: ''
           # OPTIONAL: Comma separated values for any other files that lock
           # their version to the same version in VERSION_FILE_PATH
