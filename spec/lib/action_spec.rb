@@ -12,6 +12,7 @@ describe Action do
     allow(test_config).to receive_messages(
       client: client,
       version_file_path: 'lib/version.rb',
+      version_file_pattern: '',
       payload: {
         'repository' => { 'full_name' => repo_full_name },
         'issue' => {

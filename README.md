@@ -59,6 +59,16 @@ jobs:
           # Change to the file path where you keep the Gem's version.
           # It is usually `lib/<gem name>/version.rb` or in the gemspec file.
           VERSION_FILE_PATH: <VERSION FILE PATH>
+          # OPTIONAL: A pattern to anchor version replacement in the main version file.
+          # Use the value 1.2.3 as a placeholder for the version number.
+          # When set, only text matching this pattern will be replaced, preventing
+          # unintended updates to dependencies sharing the same version number.
+          # Use YAML multiline syntax (|-) for patterns that span multiple lines.
+          # Example for Cargo.toml:
+          #   VERSION_FILE_PATTERN: |-
+          #     name = "my-crate"
+          #     version = "1.2.3"
+          VERSION_FILE_PATTERN: ''
           # OPTIONAL: Comma separated values for any other files that lock
           # their version to the same version in VERSION_FILE_PATH
           OTHER_VERSION_FILE_PATHS: 'package.json,package-lock.json,yarn.lock'

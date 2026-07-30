@@ -10,6 +10,7 @@ RSpec.describe Bump do
   let(:payload) { { 'repository' => { 'full_name' => 'owner/repo' }, 'issue' => { 'number' => 123 } } }
   let(:client) { instance_double(Octokit::Client) }
   let(:version_file_path) { 'path/to/version/file' }
+  let(:version_file_pattern) { '' }
   let(:other_version_file_paths) { ['path/to/other/version/file'] }
   let(:other_version_patterns) { [] }
   let(:base_content) { instance_double(Content) }
@@ -19,6 +20,7 @@ RSpec.describe Bump do
   before do
     allow(config).to receive_messages(
       payload: payload, client: client, version_file_path: version_file_path,
+      version_file_pattern: version_file_pattern,
       other_version_file_paths: other_version_file_paths, other_version_patterns: other_version_patterns
     )
     allow(Content).to receive(:new).with(
@@ -160,6 +162,44 @@ RSpec.describe Bump do
         'Bump patch version'
       )
       bump.bump_everything
+    end
+
+    context 'when version_file_pattern is set' do
+      let(:version_file_pattern) { "name = \"my-project\"\nversion = \"1.2.3\"" }
+      let(:other_version_file_paths) { [] }
+
+      let(:cargo_toml_content) do
+        <<~TOML
+          [package]
+          name = "my-project"
+          version = "1.0.0"
+
+          [dependencies]
+          shared-lib = { version = "1.0.0" }
+        TOML
+      end
+
+      it 'only bumps the version matching the pattern, leaving dependencies unchanged' do
+        allow(head_content).to receive(:content).and_return(cargo_toml_content)
+        allow(base_content).to receive(:content).and_return(cargo_toml_content)
+
+        bump = Bump.new(config, 'patch')
+
+        expected_content = <<~TOML
+          [package]
+          name = "my-project"
+          version = "1.0.1"
+
+          [dependencies]
+          shared-lib = { version = "1.0.0" }
+        TOML
+
+        expect(commit).to receive(:multiple_files).with(
+          [{ path: version_file_path, mode: '100644', type: 'blob', content: expected_content }],
+          'Bump patch version'
+        )
+        bump.bump_everything
+      end
     end
   end
 end
